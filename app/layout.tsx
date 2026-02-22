@@ -2,8 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title:
-    'Chat-Automatisierung für Ihr Geschäft | Mehr Buchungen, weniger Telefonstress',
+  title: 'ChatAuto | Chat-Automatisierung für Ihr Geschäft',
   description:
     'Automatisieren Sie Anfragen, Reservierungen und Terminbuchungen mit intelligentem Chat. DSGVO-konform, Setup in 7 Tagen. Für Restaurants, Friseure und Handwerker in Österreich.',
 }

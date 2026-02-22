@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, type FormEvent } from 'react'
+import Link from 'next/link'
 import {
   Menu,
   X,
@@ -14,23 +15,25 @@ import {
   Utensils,
   Scissors,
   Wrench,
+  Stethoscope,
   ChevronDown,
   Mail,
   User,
   Building,
   Send,
   Zap,
-  PhoneOff,
-  TrendingDown,
   Phone,
   CalendarCheck,
-  BellRing,
-  FileText,
-  Users,
   BadgeCheck,
+  BarChart3,
+  Calendar,
+  Bell,
+  Users,
 } from 'lucide-react'
 import RoiCalculator from '@/components/roi-calculator'
 import DemoChat from '@/components/demo-chat'
+import DashboardMockup from '@/components/dashboard-mockup'
+import InteractiveChat from '@/components/interactive-chat'
 
 /* ------------------------------------------------------------------ */
 /*  DATA                                                               */
@@ -48,7 +51,7 @@ const testimonials = [
   },
   {
     quote:
-      'Meine Kunden buchen jetzt Termine über WhatsApp – auch um 23 Uhr. Weniger Anrufe, mehr Buchungen.',
+      'Meine Kunden buchen jetzt Termine über WhatsApp — auch um 23 Uhr. Weniger Anrufe, mehr Buchungen.',
     name: 'Thomas R.',
     role: 'Friseurmeister, Graz',
   },
@@ -60,35 +63,49 @@ const testimonials = [
   },
 ]
 
-const useCases = [
+const industries = [
   {
     icon: Utensils,
     title: 'Restaurant',
+    slug: 'restaurant',
     features: [
-      'Automatische Reservierungen annehmen',
-      'Speisekarte & Öffnungszeiten beantworten',
-      'Erinnerungen gegen No-Shows versenden',
-      'Sonderwünsche & Allergien erfassen',
+      'Automatische Reservierungen',
+      'Speisekarte & Öffnungszeiten',
+      'Erinnerungen gegen No-Shows',
+      'Sonderwünsche erfassen',
     ],
   },
   {
     icon: Scissors,
     title: 'Friseur & Salon',
+    slug: 'friseur',
     features: [
       'Terminbuchung rund um die Uhr',
-      'Preisliste & Verfügbarkeit anzeigen',
-      'Automatische Terminerinnerungen',
-      'Umbuchung ohne Anruf ermöglichen',
+      'Preisliste & Verfügbarkeit',
+      'Automatische Erinnerungen',
+      'Umbuchung ohne Anruf',
+    ],
+  },
+  {
+    icon: Stethoscope,
+    title: 'Zahnarzt & Arztpraxis',
+    slug: 'zahnarzt',
+    features: [
+      'Terminvergabe automatisiert',
+      'Versicherungsfragen beantworten',
+      'Vorbereitungshinweise senden',
+      'Notfall-Weiterleitung',
     ],
   },
   {
     icon: Wrench,
     title: 'Handwerker & Gewerbe',
+    slug: 'handwerker',
     features: [
       'Anfragen sofort beantworten',
-      'Verfügbarkeit & Kostenvoranschläge',
-      'Terminvereinbarung ohne Telefon',
-      'Nachfass-Nachrichten automatisieren',
+      'Kostenvoranschläge per Chat',
+      'Notdienst priorisiert weiterleiten',
+      'Nachfass automatisieren',
     ],
   },
 ]
@@ -123,7 +140,7 @@ const pricingPlans = [
   {
     name: 'Full',
     price: 499,
-    description: 'Alles inklusive – für maximale Automatisierung.',
+    description: 'Alles inklusive — für maximale Automatisierung.',
     popular: false,
     features: [
       'Alle Kanäle unbegrenzt',
@@ -138,83 +155,60 @@ const pricingPlans = [
 const faqs = [
   {
     q: 'Was genau ist Chat-Automatisierung?',
-    a: 'Ein intelligenter Chat auf Ihrer Website oder WhatsApp, der Kundenanfragen automatisch beantwortet, Termine bucht und Reservierungen annimmt – rund um die Uhr, ohne dass Sie selbst am Telefon sitzen müssen.',
+    a: 'Ein intelligenter Chat auf Ihrer Website oder WhatsApp, der Kundenanfragen automatisch beantwortet, Termine bucht und Reservierungen annimmt — rund um die Uhr.',
   },
   {
-    q: 'Brauche ich technisches Wissen für die Einrichtung?',
-    a: 'Nein. Wir übernehmen das komplette Setup. Sie müssen nichts installieren und brauchen keine technischen Vorkenntnisse. In einem kurzen Erstgespräch klären wir Ihre Anforderungen, den Rest erledigen wir.',
+    q: 'Brauche ich technisches Wissen?',
+    a: 'Nein. Wir übernehmen das komplette Setup. Sie brauchen keine technischen Vorkenntnisse. In einem kurzen Erstgespräch klären wir Ihre Anforderungen.',
   },
   {
-    q: 'Funktioniert das mit meiner bestehenden Website?',
-    a: 'Ja. Der Chat lässt sich auf jeder Website einbinden – egal ob WordPress, Wix, eigene Seite oder gar keine Website. Im letzteren Fall nutzen wir WhatsApp direkt.',
+    q: 'Funktioniert das mit meiner Website?',
+    a: 'Ja. Der Chat lässt sich auf jeder Website einbinden — WordPress, Wix, eigene Seite. Ohne Website nutzen wir WhatsApp direkt.',
   },
   {
     q: 'Ist das DSGVO-konform?',
-    a: 'Ja, zu 100 %. Alle Daten werden in der EU verarbeitet und gespeichert. Wir stellen Ihnen auch die nötigen Datenschutz-Texte zur Verfügung.',
+    a: 'Ja, zu 100%. Alle Daten werden in der EU verarbeitet und gespeichert. Wir stellen auch die nötigen Datenschutz-Texte zur Verfügung.',
   },
   {
     q: 'Wie schnell ist das eingerichtet?',
     a: 'In der Regel innerhalb von 7 Werktagen. Einfache Setups sind oft schon nach 3 Tagen live.',
   },
   {
-    q: 'Was passiert, wenn der Chat eine Frage nicht beantworten kann?',
-    a: 'Komplexe oder ungewöhnliche Anfragen werden automatisch an Sie weitergeleitet – per E-Mail, WhatsApp oder in Ihr bestehendes System. Kein Kunde geht verloren.',
+    q: 'Was passiert bei unbeantwortbaren Fragen?',
+    a: 'Komplexe Anfragen werden automatisch an Sie weitergeleitet — per E-Mail, WhatsApp oder in Ihr System. Kein Kunde geht verloren.',
   },
   {
     q: 'Kann ich jederzeit kündigen?',
-    a: 'Ja. Es gibt keine Mindestlaufzeit. Sie können monatlich kündigen, wenn Sie nicht zufrieden sind. Kein Risiko.',
+    a: 'Ja. Keine Mindestlaufzeit. Monatlich kündbar.',
   },
   {
     q: 'Welche Sprachen werden unterstützt?',
-    a: 'Standardmäßig Deutsch und Englisch. Auf Wunsch auch Türkisch, Bosnisch/Kroatisch/Serbisch und weitere Sprachen – ideal für den österreichischen Markt.',
+    a: 'Deutsch und Englisch standardmäßig. Auf Wunsch Türkisch, BKS und weitere — ideal für den österreichischen Markt.',
   },
 ]
 
-/* ------------------------------------------------------------------ */
-/*  SMALL REUSABLE PIECES                                              */
-/* ------------------------------------------------------------------ */
-
-function CtaBand({ text }: { text: string }) {
-  return (
-    <section className="py-12 sm:py-16 bg-blue-600">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <p className="text-xl sm:text-2xl font-bold text-white mb-6">
-          {text}
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <a
-            href="#kontakt"
-            className="inline-flex items-center justify-center gap-2 bg-white text-blue-600 font-semibold px-6 py-3 rounded-xl hover:bg-blue-50 transition-colors"
-          >
-            Kostenlose ROI-Analyse anfordern
-            <ArrowRight className="w-4 h-4" />
-          </a>
-          <a
-            href="#demo"
-            className="inline-flex items-center justify-center gap-2 border-2 border-white text-white font-semibold px-6 py-3 rounded-xl hover:bg-white/10 transition-colors"
-          >
-            Demo-Chat ansehen
-          </a>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function TrustBadge({
-  icon: Icon,
-  label,
-}: {
-  icon: React.ComponentType<{ className?: string }>
-  label: string
-}) {
-  return (
-    <div className="flex items-center gap-2 text-slate-600">
-      <Icon className="w-5 h-5 text-blue-600 shrink-0" />
-      <span className="text-sm font-medium">{label}</span>
-    </div>
-  )
-}
+const dashboardFeatures = [
+  {
+    icon: Calendar,
+    title: 'Kalenderansicht',
+    desc: 'Alle Buchungen auf einen Blick. Sync mit Google, Outlook & Apple Calendar.',
+  },
+  {
+    icon: Bell,
+    title: 'Echtzeit-Benachrichtigungen',
+    desc: 'Sofort informiert bei neuen Buchungen, Stornierungen und Anfragen.',
+  },
+  {
+    icon: Users,
+    title: 'Kundenverwaltung',
+    desc: 'Kundenhistorie, Notizen und Kontaktdaten an einem Ort.',
+  },
+  {
+    icon: BarChart3,
+    title: 'Analyse-Dashboard',
+    desc: 'Buchungen pro Woche, Umsatz, No-Show-Rate — alles messbar.',
+  },
+]
 
 /* ------------------------------------------------------------------ */
 /*  PAGE                                                               */
@@ -222,6 +216,7 @@ function TrustBadge({
 
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [branchenOpen, setBranchenOpen] = useState(false)
   const [activeFaq, setActiveFaq] = useState<number | null>(null)
   const [formSubmitted, setFormSubmitted] = useState(false)
   const [formData, setFormData] = useState({
@@ -234,160 +229,192 @@ export default function Home() {
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault()
-    // TODO: connect to your form endpoint (e.g. Formspree, Netlify Forms, API route)
     console.log('Form submitted:', formData)
     setFormSubmitted(true)
   }
-
-  const navLinks = [
-    { href: '#so-funktionierts', label: "So funktioniert\u2019s" },
-    { href: '#branchen', label: 'Branchen' },
-    { href: '#preise', label: 'Preise' },
-    { href: '#faq', label: 'FAQ' },
-    { href: '#kontakt', label: 'Kontakt' },
-  ]
 
   return (
     <>
       {/* ============================================================ */}
       {/*  NAV                                                          */}
       {/* ============================================================ */}
-      <nav className="fixed top-0 inset-x-0 z-50 bg-white/90 backdrop-blur border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
-          <a href="#" className="text-xl font-bold text-slate-900">
-            Chat<span className="text-blue-600">Auto</span>
-          </a>
+      <nav className="fixed top-0 inset-x-0 z-50 bg-white/80 backdrop-blur-xl border-b border-[#E8E8ED]">
+        <div className="max-w-[1120px] mx-auto px-6 flex items-center justify-between h-12">
+          <Link href="/personalweb" className="text-base font-semibold text-[#1D1D1F] tracking-[-0.015em]">
+            Chat<span className="text-[#0071E3]">Auto</span>
+          </Link>
 
           {/* Desktop links */}
-          <ul className="hidden md:flex items-center gap-6">
-            {navLinks.map((l) => (
-              <li key={l.href}>
-                <a
-                  href={l.href}
-                  className="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors"
-                >
-                  {l.label}
-                </a>
-              </li>
-            ))}
-            <li>
-              <a
-                href="#kontakt"
-                className="inline-flex items-center gap-2 bg-blue-600 text-white text-sm font-semibold px-4 py-2 rounded-xl hover:bg-blue-700 transition-colors"
-              >
-                ROI-Analyse
-                <ArrowRight className="w-4 h-4" />
-              </a>
-            </li>
-          </ul>
+          <div className="hidden md:flex items-center gap-8">
+            <a href="#so-funktionierts" className="text-xs font-medium text-[#6E6E73] hover:text-[#1D1D1F] transition-colors">
+              So funktioniert&apos;s
+            </a>
+
+            {/* Branchen dropdown */}
+            <div
+              className="relative"
+              onMouseEnter={() => setBranchenOpen(true)}
+              onMouseLeave={() => setBranchenOpen(false)}
+            >
+              <button className="flex items-center gap-1 text-xs font-medium text-[#6E6E73] hover:text-[#1D1D1F] transition-colors">
+                Branchen
+                <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${branchenOpen ? 'rotate-180' : ''}`} />
+              </button>
+              {branchenOpen && (
+                <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2">
+                  <div className="bg-white/95 backdrop-blur-xl rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.1)] border border-[#E8E8ED] p-2 min-w-[200px]">
+                    {industries.map((ind) => (
+                      <Link
+                        key={ind.slug}
+                        href={`/personalweb/${ind.slug}`}
+                        className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-[#6E6E73] hover:bg-[#F5F5F7] hover:text-[#1D1D1F] transition-colors"
+                      >
+                        <ind.icon className="w-4 h-4" />
+                        {ind.title}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <a href="#preise" className="text-xs font-medium text-[#6E6E73] hover:text-[#1D1D1F] transition-colors">
+              Preise
+            </a>
+            <a href="#faq" className="text-xs font-medium text-[#6E6E73] hover:text-[#1D1D1F] transition-colors">
+              FAQ
+            </a>
+            <a href="#kontakt" className="text-xs font-medium text-[#6E6E73] hover:text-[#1D1D1F] transition-colors">
+              Kontakt
+            </a>
+            <a
+              href="#kontakt"
+              className="bg-[#0071E3] text-white text-xs font-medium px-4 py-1.5 rounded-full hover:bg-[#0077ED] transition-colors"
+            >
+              ROI-Analyse
+            </a>
+          </div>
 
           {/* Mobile hamburger */}
           <button
-            aria-label="Menü öffnen"
-            className="md:hidden p-2 -mr-2 text-slate-700"
+            aria-label="Menü"
+            className="md:hidden p-2 -mr-2 text-[#1D1D1F]"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
-            {mobileMenuOpen ? (
-              <X className="w-6 h-6" />
-            ) : (
-              <Menu className="w-6 h-6" />
-            )}
+            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
 
         {/* Mobile menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden bg-white border-t border-slate-200 px-4 pb-4">
-            <ul className="space-y-2 pt-2">
-              {navLinks.map((l) => (
-                <li key={l.href}>
-                  <a
-                    href={l.href}
-                    className="block py-2 text-sm font-medium text-slate-700 hover:text-blue-600"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    {l.label}
-                  </a>
-                </li>
-              ))}
-              <li>
+          <div className="md:hidden bg-white/95 backdrop-blur-xl border-t border-[#E8E8ED] px-6 pb-6 pt-2">
+            <div className="space-y-1">
+              {[
+                { href: '#so-funktionierts', label: "So funktioniert's" },
+                { href: '#branchen', label: 'Branchen' },
+                { href: '#preise', label: 'Preise' },
+                { href: '#faq', label: 'FAQ' },
+                { href: '#kontakt', label: 'Kontakt' },
+              ].map((l) => (
                 <a
-                  href="#kontakt"
-                  className="block text-center mt-2 bg-blue-600 text-white text-sm font-semibold px-4 py-2.5 rounded-xl"
+                  key={l.href}
+                  href={l.href}
+                  className="block py-2 text-sm text-[#6E6E73] hover:text-[#1D1D1F]"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  Kostenlose ROI-Analyse
+                  {l.label}
                 </a>
-              </li>
-            </ul>
+              ))}
+              <div className="pt-2 border-t border-[#E8E8ED] mt-2">
+                <p className="text-[10px] text-[#86868B] uppercase tracking-widest mb-2">Branchen</p>
+                {industries.map((ind) => (
+                  <Link
+                    key={ind.slug}
+                    href={`/personalweb/${ind.slug}`}
+                    className="flex items-center gap-2 py-2 text-sm text-[#6E6E73] hover:text-[#1D1D1F]"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <ind.icon className="w-4 h-4" />
+                    {ind.title}
+                  </Link>
+                ))}
+              </div>
+              <a
+                href="#kontakt"
+                className="block text-center mt-3 bg-[#0071E3] text-white text-sm font-medium px-4 py-2.5 rounded-full"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Kostenlose ROI-Analyse
+              </a>
+            </div>
           </div>
         )}
       </nav>
 
-      {/* Spacer for fixed nav */}
-      <div className="h-16" />
+      <div className="h-12" />
 
       {/* ============================================================ */}
       {/*  HERO                                                         */}
       {/* ============================================================ */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-slate-50 to-white py-20 sm:py-28 lg:py-36">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-sm font-semibold text-blue-600 uppercase tracking-wide mb-4">
-            Chat-Automatisierung für Ihr Geschäft
+      <section className="py-24 sm:py-32 lg:py-40">
+        <div className="max-w-[980px] mx-auto px-6 text-center">
+          <p className="text-[#0071E3] text-sm font-medium tracking-wide mb-4">
+            Chat-Automatisierung
           </p>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight max-w-4xl mx-auto">
-            Mehr Buchungen, weniger Telefonstress –{' '}
-            <span className="text-blue-600">vollautomatisch.</span>
+          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-[#1D1D1F] tracking-[-0.015em] leading-[1.05]">
+            Mehr Buchungen.
+            <br />
+            <span className="text-[#86868B]">Weniger Telefon.</span>
           </h1>
-          <p className="mt-6 text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto">
-            Ihr Chat beantwortet Anfragen sofort, nimmt Reservierungen an und
-            reduziert No-Shows – 24/7, ohne App, ohne Technik-Aufwand.
+          <p className="mt-6 text-lg sm:text-xl text-[#6E6E73] max-w-xl mx-auto leading-relaxed">
+            Ihr Chat beantwortet Anfragen, nimmt Reservierungen an und reduziert
+            No-Shows — 24/7, ohne App, ohne Technik-Aufwand.
           </p>
           <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href="#kontakt"
-              className="inline-flex items-center justify-center gap-2 bg-blue-600 text-white font-semibold px-8 py-4 rounded-xl text-lg hover:bg-blue-700 transition-colors shadow-lg shadow-blue-600/25"
+              className="inline-flex items-center justify-center gap-2 bg-[#0071E3] text-white font-medium px-8 py-3.5 rounded-full text-base hover:bg-[#0077ED] transition-colors"
             >
-              Kostenlose ROI-Analyse anfordern
-              <ArrowRight className="w-5 h-5" />
+              Kostenlose ROI-Analyse
+              <ArrowRight className="w-4 h-4" />
             </a>
             <a
               href="#demo"
-              className="inline-flex items-center justify-center gap-2 border-2 border-slate-300 text-slate-700 font-semibold px-8 py-4 rounded-xl text-lg hover:border-blue-600 hover:text-blue-600 transition-colors"
+              className="inline-flex items-center justify-center gap-2 text-[#0071E3] font-medium px-8 py-3.5 rounded-full text-base hover:bg-[rgba(0,113,227,0.08)] transition-colors"
             >
-              <MessageCircle className="w-5 h-5" />
-              Demo-Chat ansehen
+              Demo ausprobieren
+              <ArrowRight className="w-4 h-4" />
             </a>
           </div>
 
           {/* Trust badges */}
-          <div className="mt-12 flex flex-wrap justify-center gap-x-8 gap-y-3">
-            <TrustBadge icon={Shield} label="DSGVO-konform" />
-            <TrustBadge icon={Clock} label="Setup in 7 Tagen" />
-            <TrustBadge icon={MessageCircle} label="Keine App nötig" />
-            <TrustBadge icon={Globe} label="Mehrsprachig" />
+          <div className="mt-16 flex flex-wrap justify-center gap-x-10 gap-y-4">
+            {[
+              { icon: Shield, label: 'DSGVO-konform' },
+              { icon: Clock, label: 'Setup in 7 Tagen' },
+              { icon: MessageCircle, label: 'Keine App nötig' },
+              { icon: Globe, label: 'Mehrsprachig' },
+            ].map((b) => (
+              <div key={b.label} className="flex items-center gap-2 text-[#86868B]">
+                <b.icon className="w-4 h-4" />
+                <span className="text-xs font-medium">{b.label}</span>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* ============================================================ */}
-      {/*  SOCIAL PROOF / LOGOS                                         */}
+      {/*  SOCIAL PROOF                                                 */}
       {/* ============================================================ */}
-      <section className="py-12 border-y border-slate-100 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-center text-xs font-semibold uppercase tracking-widest text-slate-400 mb-8">
-            Vertrauen von Betrieben in ganz Österreich
-          </p>
-          {/* Placeholder logos */}
-          <div className="flex flex-wrap justify-center gap-8 items-center opacity-40">
+      <section className="py-8 border-y border-[#E8E8ED]">
+        <div className="max-w-[1120px] mx-auto px-6">
+          <div className="flex flex-wrap justify-center gap-x-12 gap-y-4 items-center opacity-30">
             {['Gasthaus Huber', 'Salon Bella', 'Installationen Mayr', 'Pizzeria Roma', 'Praxis Dr. König'].map(
               (name) => (
-                <div
-                  key={name}
-                  className="text-sm font-bold text-slate-400 tracking-wide"
-                >
+                <span key={name} className="text-xs font-semibold text-[#1D1D1F] tracking-wide">
                   {name}
-                </div>
+                </span>
               )
             )}
           </div>
@@ -397,30 +424,22 @@ export default function Home() {
       {/* ============================================================ */}
       {/*  TESTIMONIALS                                                 */}
       {/* ============================================================ */}
-      <section className="py-16 sm:py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-20 sm:py-28">
+        <div className="max-w-[1120px] mx-auto px-6">
           <div className="grid md:grid-cols-3 gap-6">
             {testimonials.map((t) => (
-              <div
-                key={t.name}
-                className="bg-slate-50 rounded-2xl p-6 sm:p-8 border border-slate-100"
-              >
-                <div className="flex gap-1 mb-4">
+              <div key={t.name} className="bg-[#F5F5F7] rounded-2xl p-8">
+                <div className="flex gap-0.5 mb-5">
                   {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className="w-4 h-4 fill-amber-400 text-amber-400"
-                    />
+                    <Star key={i} className="w-3.5 h-3.5 fill-[#FF9F0A] text-[#FF9F0A]" />
                   ))}
                 </div>
-                <p className="text-slate-700 mb-6 leading-relaxed">
+                <p className="text-[#1D1D1F] text-[15px] leading-relaxed mb-6">
                   &ldquo;{t.quote}&rdquo;
                 </p>
                 <div>
-                  <p className="font-semibold text-slate-900 text-sm">
-                    {t.name}
-                  </p>
-                  <p className="text-slate-500 text-sm">{t.role}</p>
+                  <p className="font-semibold text-[#1D1D1F] text-sm">{t.name}</p>
+                  <p className="text-[#86868B] text-xs">{t.role}</p>
                 </div>
               </div>
             ))}
@@ -429,158 +448,160 @@ export default function Home() {
       </section>
 
       {/* ============================================================ */}
-      {/*  PROBLEM SECTION                                              */}
+      {/*  PROBLEM                                                      */}
       {/* ============================================================ */}
-      <section className="py-16 sm:py-24 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mx-auto text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
-              Jede verpasste Anfrage kostet Sie bares Geld
-            </h2>
-            <p className="text-lg text-slate-600">
-              Kunden erwarten sofortige Antworten. Wenn niemand abnimmt oder
-              antwortet, buchen sie bei der Konkurrenz.
-            </p>
+      <section className="py-20 sm:py-28 bg-[#F5F5F7]">
+        <div className="max-w-[980px] mx-auto px-6 text-center">
+          <p className="text-[#FF3B30] text-sm font-medium mb-4">Das Problem</p>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#1D1D1F] tracking-[-0.01em] mb-6">
+            Jede verpasste Anfrage kostet&nbsp;Geld.
+          </h2>
+          <p className="text-lg text-[#6E6E73] max-w-lg mx-auto mb-16">
+            Kunden erwarten sofortige Antworten. Wenn niemand abnimmt, buchen sie bei der Konkurrenz.
+          </p>
+
+          <div className="grid sm:grid-cols-3 gap-6 max-w-3xl mx-auto mb-12">
+            {[
+              { value: '5', label: 'verpasste Anrufe pro Tag' },
+              { value: '30 %', label: 'davon wären zahlende Kunden' },
+              { value: '€ 60', label: 'durchschnittlicher Auftragswert' },
+            ].map((s) => (
+              <div key={s.label} className="bg-white rounded-2xl p-6 shadow-[0_1px_3px_rgba(0,0,0,0.06)]">
+                <p className="text-3xl font-bold text-[#1D1D1F] mb-1">{s.value}</p>
+                <p className="text-xs text-[#6E6E73]">{s.label}</p>
+              </div>
+            ))}
           </div>
 
-          <div className="grid sm:grid-cols-3 gap-6 max-w-4xl mx-auto mb-12">
-            <div className="bg-white rounded-2xl p-6 text-center border border-slate-200 shadow-sm">
-              <PhoneOff className="w-8 h-8 text-red-500 mx-auto mb-3" />
-              <p className="text-3xl font-bold text-slate-900">5</p>
-              <p className="text-sm text-slate-600 mt-1">
-                verpasste Anrufe pro Tag
-              </p>
-            </div>
-            <div className="bg-white rounded-2xl p-6 text-center border border-slate-200 shadow-sm">
-              <TrendingDown className="w-8 h-8 text-red-500 mx-auto mb-3" />
-              <p className="text-3xl font-bold text-slate-900">30 %</p>
-              <p className="text-sm text-slate-600 mt-1">
-                davon wären zahlende Kunden
-              </p>
-            </div>
-            <div className="bg-white rounded-2xl p-6 text-center border border-slate-200 shadow-sm">
-              <TrendingDown className="w-8 h-8 text-red-500 mx-auto mb-3" />
-              <p className="text-3xl font-bold text-slate-900">€ 60</p>
-              <p className="text-sm text-slate-600 mt-1">
-                durchschnittlicher Auftragswert
-              </p>
-            </div>
-          </div>
-
-          <div className="bg-red-50 border border-red-200 rounded-2xl p-6 sm:p-8 max-w-2xl mx-auto text-center">
-            <p className="text-sm text-red-600 font-medium mb-2">
-              Das ergibt:
-            </p>
-            <p className="text-4xl sm:text-5xl font-bold text-red-600">
-              € 2.700
-            </p>
-            <p className="text-red-600 font-medium mt-2">
-              entgangener Umsatz pro Monat
-            </p>
-            <p className="text-sm text-red-500 mt-3">
-              5 Anfragen × 30 Tage × 30 % Abschlussrate × € 60
-            </p>
+          <div className="bg-[rgba(255,59,48,0.08)] rounded-2xl p-8 max-w-md mx-auto">
+            <p className="text-sm text-[#FF3B30] font-medium mb-2">Das ergibt:</p>
+            <p className="text-4xl sm:text-5xl font-bold text-[#FF3B30]">€ 2.700</p>
+            <p className="text-sm text-[#FF3B30] font-medium mt-2">entgangener Umsatz pro Monat</p>
           </div>
         </div>
       </section>
-
-      {/* CTA */}
-      <CtaBand text="Wie viel Umsatz lassen Sie liegen?" />
 
       {/* ============================================================ */}
       {/*  HOW IT WORKS                                                 */}
       {/* ============================================================ */}
-      <section id="so-funktionierts" className="py-16 sm:py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="so-funktionierts" className="py-20 sm:py-28">
+        <div className="max-w-[980px] mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
-              In 3 Schritten zum automatisierten Chat
+            <p className="text-[#0071E3] text-sm font-medium mb-4">So einfach</p>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#1D1D1F] tracking-[-0.01em]">
+              In drei Schritten live.
             </h2>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              Kein Technik-Aufwand für Sie. Wir kümmern uns um alles.
-            </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-12 max-w-3xl mx-auto">
             {[
               {
-                step: '1',
+                num: '1',
                 icon: Phone,
-                title: 'Erstgespräch & Setup',
-                desc: 'Wir analysieren Ihre häufigsten Anfragen und richten Ihren Chat innerhalb von 7 Tagen ein.',
+                title: 'Erstgespräch',
+                desc: 'Wir analysieren Ihre häufigsten Anfragen und richten den Chat innerhalb von 7 Tagen ein.',
               },
               {
-                step: '2',
+                num: '2',
                 icon: Zap,
                 title: 'Chat geht live',
-                desc: 'Ihr Chat beantwortet Fragen, nimmt Buchungen an und leitet komplexe Anfragen an Sie weiter.',
+                desc: 'Ihr Chat beantwortet Fragen, nimmt Buchungen an und leitet komplexe Anfragen weiter.',
               },
               {
-                step: '3',
+                num: '3',
                 icon: CheckCircle,
                 title: 'Sie profitieren',
-                desc: 'Mehr Buchungen, weniger No-Shows, zufriedenere Kunden – messbar ab Tag 1.',
+                desc: 'Mehr Buchungen, weniger No-Shows, zufriedenere Kunden — messbar ab Tag 1.',
               },
             ].map((s) => (
-              <div key={s.step} className="text-center">
-                <div className="w-14 h-14 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-5">
-                  <s.icon className="w-7 h-7 text-blue-600" />
+              <div key={s.num} className="text-center">
+                <div className="w-12 h-12 bg-[#F5F5F7] rounded-2xl flex items-center justify-center mx-auto mb-5">
+                  <s.icon className="w-5 h-5 text-[#1D1D1F]" />
                 </div>
-                <span className="inline-block text-xs font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-full mb-3">
-                  Schritt {s.step}
-                </span>
-                <h3 className="text-xl font-bold text-slate-900 mb-2">
-                  {s.title}
-                </h3>
-                <p className="text-slate-600">{s.desc}</p>
+                <p className="text-xs font-semibold text-[#0071E3] mb-3">Schritt {s.num}</p>
+                <h3 className="text-lg font-semibold text-[#1D1D1F] mb-2">{s.title}</h3>
+                <p className="text-sm text-[#6E6E73] leading-relaxed">{s.desc}</p>
               </div>
             ))}
+          </div>
+
+          <div className="text-center mt-16">
+            <a
+              href="#kontakt"
+              className="inline-flex items-center gap-2 text-[#0071E3] text-sm font-medium hover:underline"
+            >
+              Jetzt starten
+              <ArrowRight className="w-4 h-4" />
+            </a>
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <CtaBand text="Bereit, keine Anfrage mehr zu verpassen?" />
-
       {/* ============================================================ */}
-      {/*  USE CASES                                                    */}
+      {/*  DASHBOARD                                                    */}
       {/* ============================================================ */}
-      <section id="branchen" className="py-16 sm:py-24 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
-              Perfekt für Ihre Branche
+      <section id="dashboard" className="py-20 sm:py-28 bg-[#F5F5F7]">
+        <div className="max-w-[1120px] mx-auto px-6">
+          <div className="text-center mb-6">
+            <p className="text-[#0071E3] text-sm font-medium mb-4">Für unsere Kunden</p>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#1D1D1F] tracking-[-0.01em] mb-4">
+              Alles im Blick.
             </h2>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              Egal ob Gastronomie, Dienstleistung oder Handwerk – der Chat passt
-              sich Ihrem Geschäft an.
+            <p className="text-lg text-[#6E6E73] max-w-lg mx-auto">
+              Ein Dashboard für alle Buchungen, Kunden und Analysen.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {useCases.map((uc) => (
-              <div
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-3xl mx-auto mb-12">
+            {dashboardFeatures.map((f) => (
+              <div key={f.title} className="text-center p-4">
+                <f.icon className="w-5 h-5 text-[#0071E3] mx-auto mb-3" />
+                <h4 className="text-sm font-semibold text-[#1D1D1F] mb-1">{f.title}</h4>
+                <p className="text-xs text-[#6E6E73] leading-relaxed">{f.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <DashboardMockup />
+        </div>
+      </section>
+
+      {/* ============================================================ */}
+      {/*  BRANCHEN                                                     */}
+      {/* ============================================================ */}
+      <section id="branchen" className="py-20 sm:py-28">
+        <div className="max-w-[1120px] mx-auto px-6">
+          <div className="text-center mb-16">
+            <p className="text-[#0071E3] text-sm font-medium mb-4">Branchen</p>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#1D1D1F] tracking-[-0.01em] mb-4">
+              Perfekt für Ihr Geschäft.
+            </h2>
+            <p className="text-lg text-[#6E6E73] max-w-lg mx-auto">
+              Egal ob Gastronomie, Dienstleistung oder Handwerk — der Chat passt sich an.
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-[1120px] mx-auto">
+            {industries.map((uc) => (
+              <Link
                 key={uc.title}
-                className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm hover:shadow-md transition-shadow"
+                href={`/personalweb/${uc.slug}`}
+                className="group bg-[#F5F5F7] rounded-2xl p-6 hover:bg-white hover:shadow-[0_8px_30px_rgba(0,0,0,0.1)] transition-all duration-300"
               >
-                <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-5">
-                  <uc.icon className="w-6 h-6 text-blue-600" />
-                </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-4">
-                  {uc.title}
-                </h3>
-                <ul className="space-y-2.5">
+                <uc.icon className="w-6 h-6 text-[#1D1D1F] mb-4" />
+                <h3 className="text-base font-semibold text-[#1D1D1F] mb-4">{uc.title}</h3>
+                <ul className="space-y-2 mb-6">
                   {uc.features.map((f) => (
-                    <li
-                      key={f}
-                      className="flex items-start gap-2 text-slate-600 text-sm"
-                    >
-                      <CheckCircle className="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" />
+                    <li key={f} className="flex items-start gap-2 text-xs text-[#6E6E73]">
+                      <CheckCircle className="w-3.5 h-3.5 text-[#34C759] mt-0.5 shrink-0" />
                       {f}
                     </li>
                   ))}
                 </ul>
-              </div>
+                <span className="text-xs font-medium text-[#0071E3] group-hover:underline flex items-center gap-1">
+                  Mehr erfahren <ArrowRight className="w-3 h-3" />
+                </span>
+              </Link>
             ))}
           </div>
         </div>
@@ -589,36 +610,55 @@ export default function Home() {
       {/* ============================================================ */}
       {/*  DEMO CHAT                                                    */}
       {/* ============================================================ */}
-      <section id="demo" className="py-16 sm:py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="demo" className="py-20 sm:py-28 bg-[#F5F5F7]">
+        <div className="max-w-[1120px] mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
-              So sieht es in der Praxis aus
+            <p className="text-[#0071E3] text-sm font-medium mb-4">Live-Beispiele</p>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#1D1D1F] tracking-[-0.01em] mb-4">
+              So klingt Ihr Chat.
             </h2>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              Echte Gespräche, automatisch geführt. KI-gestützt, aber
-              menschlich formuliert.
+            <p className="text-lg text-[#6E6E73] max-w-lg mx-auto">
+              Echte Gespräche, automatisch geführt. KI-gestützt, aber menschlich formuliert.
             </p>
           </div>
           <DemoChat />
         </div>
       </section>
 
-      {/* CTA */}
-      <CtaBand text="Starten Sie in 7 Tagen – ohne Technik-Aufwand." />
+      {/* ============================================================ */}
+      {/*  INTERACTIVE CHAT                                              */}
+      {/* ============================================================ */}
+      <section id="live-demo" className="py-20 sm:py-28">
+        <div className="max-w-[1120px] mx-auto px-6">
+          <div className="text-center mb-4">
+            <div className="inline-flex items-center gap-2 bg-[rgba(0,113,227,0.08)] text-[#0071E3] text-xs font-medium px-4 py-2 rounded-full mb-6">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#0071E3] opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#0071E3]" />
+              </span>
+              Probieren Sie unseren Chat live aus — genau so funktioniert er auf Ihrer Website
+            </div>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#1D1D1F] tracking-[-0.01em] mb-4">
+              Testen Sie es selbst.
+            </h2>
+            <p className="text-lg text-[#6E6E73] max-w-lg mx-auto">
+              Tippen Sie eine Nachricht und erleben Sie, wie der Chat antwortet.
+            </p>
+          </div>
+          <InteractiveChat />
+        </div>
+      </section>
 
       {/* ============================================================ */}
       {/*  ROI CALCULATOR                                               */}
       {/* ============================================================ */}
-      <section id="roi" className="py-16 sm:py-24 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="roi" className="py-20 sm:py-28 bg-[#F5F5F7]">
+        <div className="max-w-[1120px] mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
-              Berechnen Sie Ihr Umsatz-Potenzial
+            <p className="text-[#0071E3] text-sm font-medium mb-4">ROI-Rechner</p>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#1D1D1F] tracking-[-0.01em] mb-4">
+              Berechnen Sie Ihr Potenzial.
             </h2>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              Ziehen Sie an den Reglern und sehen Sie sofort, was möglich ist.
-            </p>
           </div>
           <RoiCalculator />
         </div>
@@ -627,61 +667,61 @@ export default function Home() {
       {/* ============================================================ */}
       {/*  PRICING                                                      */}
       {/* ============================================================ */}
-      <section id="preise" className="py-16 sm:py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="preise" className="py-20 sm:py-28">
+        <div className="max-w-[1120px] mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
-              Transparente Preise. Keine versteckten Kosten.
+            <p className="text-[#0071E3] text-sm font-medium mb-4">Preise</p>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#1D1D1F] tracking-[-0.01em] mb-4">
+              Transparent. Keine versteckten Kosten.
             </h2>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              Monatlich kündbar. Keine Bindung. Kein Risiko.
+            <p className="text-base text-[#6E6E73]">
+              Monatlich kündbar. Keine Bindung.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-4 max-w-[980px] mx-auto">
             {pricingPlans.map((plan) => (
               <div
                 key={plan.name}
-                className={`relative rounded-2xl p-6 sm:p-8 border-2 ${
+                className={`relative rounded-2xl p-8 transition-shadow ${
                   plan.popular
-                    ? 'border-blue-600 shadow-lg shadow-blue-600/10'
-                    : 'border-slate-200'
+                    ? 'bg-[#1D1D1F] text-white shadow-[0_20px_60px_rgba(0,0,0,0.12)]'
+                    : 'bg-[#F5F5F7]'
                 }`}
               >
                 {plan.popular && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-xs font-bold px-4 py-1 rounded-full">
-                    Am beliebtesten
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#0071E3] text-white text-[10px] font-semibold px-3 py-1 rounded-full">
+                    Empfohlen
                   </span>
                 )}
-                <h3 className="text-xl font-bold text-slate-900">
+                <h3 className={`text-lg font-semibold ${plan.popular ? 'text-white' : 'text-[#1D1D1F]'}`}>
                   {plan.name}
                 </h3>
-                <p className="text-sm text-slate-500 mt-1 mb-5">
+                <p className={`text-xs mt-1 mb-6 ${plan.popular ? 'text-white/60' : 'text-[#86868B]'}`}>
                   {plan.description}
                 </p>
                 <div className="mb-6">
-                  <span className="text-4xl font-bold text-slate-900">
+                  <span className={`text-4xl font-bold ${plan.popular ? 'text-white' : 'text-[#1D1D1F]'}`}>
                     € {plan.price}
                   </span>
-                  <span className="text-slate-500"> / Monat</span>
+                  <span className={`text-sm ${plan.popular ? 'text-white/60' : 'text-[#86868B]'}`}>
+                    {' '}/ Monat
+                  </span>
                 </div>
                 <ul className="space-y-3 mb-8">
                   {plan.features.map((f) => (
-                    <li
-                      key={f}
-                      className="flex items-start gap-2 text-sm text-slate-600"
-                    >
-                      <CheckCircle className="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" />
+                    <li key={f} className={`flex items-start gap-2 text-sm ${plan.popular ? 'text-white/80' : 'text-[#6E6E73]'}`}>
+                      <CheckCircle className="w-4 h-4 text-[#34C759] mt-0.5 shrink-0" />
                       {f}
                     </li>
                   ))}
                 </ul>
                 <a
                   href="#kontakt"
-                  className={`block text-center font-semibold py-3 rounded-xl transition-colors ${
+                  className={`block text-center text-sm font-medium py-3 rounded-full transition-colors ${
                     plan.popular
-                      ? 'bg-blue-600 text-white hover:bg-blue-700'
-                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                      ? 'bg-[#0071E3] text-white hover:bg-[#0077ED]'
+                      : 'bg-[#1D1D1F] text-white hover:bg-[#333336]'
                   }`}
                 >
                   Jetzt starten
@@ -690,46 +730,40 @@ export default function Home() {
             ))}
           </div>
 
-          <p className="text-center text-sm text-slate-500 mt-8">
-            Alle Preise exkl. USt. Monatlich kündbar – keine Bindung.
+          <p className="text-center text-xs text-[#86868B] mt-8">
+            Alle Preise exkl. USt. Monatlich kündbar — keine Bindung.
           </p>
         </div>
       </section>
 
-      {/* CTA */}
-      <CtaBand text="Lassen Sie kein Geld mehr liegen." />
-
       {/* ============================================================ */}
       {/*  FAQ                                                          */}
       {/* ============================================================ */}
-      <section id="faq" className="py-16 sm:py-24 bg-slate-50">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 text-center mb-12">
-            Häufige Fragen
-          </h2>
+      <section id="faq" className="py-20 sm:py-28 bg-[#F5F5F7]">
+        <div className="max-w-2xl mx-auto px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold text-[#1D1D1F] tracking-[-0.01em]">
+              Häufige Fragen.
+            </h2>
+          </div>
 
-          <div className="space-y-3">
+          <div className="space-y-2">
             {faqs.map((faq, i) => (
-              <div
-                key={i}
-                className="bg-white rounded-2xl border border-slate-200 overflow-hidden"
-              >
+              <div key={i} className="bg-white rounded-2xl overflow-hidden">
                 <button
                   onClick={() => setActiveFaq(activeFaq === i ? null : i)}
                   className="w-full flex items-center justify-between px-6 py-4 text-left"
                   aria-expanded={activeFaq === i}
                 >
-                  <span className="font-semibold text-slate-900 pr-4">
-                    {faq.q}
-                  </span>
+                  <span className="font-medium text-[#1D1D1F] text-sm pr-4">{faq.q}</span>
                   <ChevronDown
-                    className={`w-5 h-5 text-slate-400 shrink-0 transition-transform ${
+                    className={`w-4 h-4 text-[#86868B] shrink-0 transition-transform duration-300 ${
                       activeFaq === i ? 'rotate-180' : ''
                     }`}
                   />
                 </button>
                 {activeFaq === i && (
-                  <div className="px-6 pb-5 text-slate-600 leading-relaxed">
+                  <div className="px-6 pb-5 text-sm text-[#6E6E73] leading-relaxed">
                     {faq.a}
                   </div>
                 )}
@@ -740,174 +774,93 @@ export default function Home() {
       </section>
 
       {/* ============================================================ */}
-      {/*  FINAL CTA + CONTACT FORM                                     */}
+      {/*  CONTACT                                                      */}
       {/* ============================================================ */}
-      <section id="kontakt" className="py-16 sm:py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-            {/* Left: copy */}
+      <section id="kontakt" className="py-20 sm:py-28">
+        <div className="max-w-[1120px] mx-auto px-6">
+          <div className="grid lg:grid-cols-2 gap-16 items-start">
+            {/* Left */}
             <div>
-              <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
+              <p className="text-[#0071E3] text-sm font-medium mb-4">Kontakt</p>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#1D1D1F] tracking-[-0.01em] mb-6">
                 Lassen Sie kein Geld mehr liegen.
               </h2>
-              <p className="text-lg text-slate-600 mb-8">
-                Fordern Sie jetzt Ihre kostenlose ROI-Analyse an und erfahren
-                Sie, wie viel Umsatz Ihnen aktuell entgeht.
+              <p className="text-base text-[#6E6E73] mb-10 leading-relaxed">
+                Fordern Sie Ihre kostenlose ROI-Analyse an und erfahren Sie, wie viel Umsatz Ihnen entgeht.
               </p>
 
-              <div className="space-y-4 mb-8">
+              <div className="space-y-5 mb-10">
                 {[
-                  {
-                    icon: CalendarCheck,
-                    text: 'Setup in 7 Tagen – Sie müssen nichts tun',
-                  },
-                  {
-                    icon: Shield,
-                    text: '100 % DSGVO-konform, Daten in der EU',
-                  },
-                  {
-                    icon: BadgeCheck,
-                    text: 'Keine Bindung – jederzeit monatlich kündbar',
-                  },
-                  {
-                    icon: Globe,
-                    text: 'Mehrsprachig: DE, EN, TR, BKS und mehr',
-                  },
+                  { icon: CalendarCheck, text: 'Setup in 7 Tagen' },
+                  { icon: Shield, text: '100% DSGVO-konform' },
+                  { icon: BadgeCheck, text: 'Jederzeit kündbar' },
+                  { icon: Globe, text: 'Mehrsprachig' },
                 ].map((item) => (
-                  <div
-                    key={item.text}
-                    className="flex items-start gap-3"
-                  >
-                    <item.icon className="w-5 h-5 text-blue-600 mt-0.5 shrink-0" />
-                    <span className="text-slate-700">{item.text}</span>
+                  <div key={item.text} className="flex items-center gap-3">
+                    <item.icon className="w-4 h-4 text-[#86868B] shrink-0" />
+                    <span className="text-sm text-[#6E6E73]">{item.text}</span>
                   </div>
                 ))}
               </div>
 
-              <div className="bg-slate-50 rounded-2xl p-6 border border-slate-100">
-                <p className="text-sm font-semibold text-slate-900 mb-1">
-                  Lieber direkt schreiben?
-                </p>
+              <div className="bg-[#F5F5F7] rounded-2xl p-5">
+                <p className="text-xs font-medium text-[#86868B] mb-1">Lieber direkt schreiben?</p>
                 <a
                   href={WHATSAPP_LINK}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-green-600 font-semibold hover:underline"
+                  className="inline-flex items-center gap-2 text-[#34C759] text-sm font-medium hover:underline"
                 >
-                  <MessageCircle className="w-5 h-5" />
+                  <MessageCircle className="w-4 h-4" />
                   WhatsApp: +43 660 0000000
                 </a>
               </div>
             </div>
 
             {/* Right: form */}
-            <div className="bg-slate-50 rounded-2xl p-6 sm:p-8 border border-slate-200">
+            <div className="bg-[#F5F5F7] rounded-2xl p-8">
               {formSubmitted ? (
                 <div className="text-center py-12">
-                  <CheckCircle className="w-16 h-16 text-emerald-500 mx-auto mb-4" />
-                  <h3 className="text-2xl font-bold text-slate-900 mb-2">
-                    Vielen Dank!
-                  </h3>
-                  <p className="text-slate-600">
-                    Wir melden uns innerhalb von 24 Stunden bei Ihnen.
-                  </p>
+                  <CheckCircle className="w-12 h-12 text-[#34C759] mx-auto mb-4" />
+                  <h3 className="text-xl font-bold text-[#1D1D1F] mb-2">Vielen Dank.</h3>
+                  <p className="text-sm text-[#6E6E73]">Wir melden uns innerhalb von 24 Stunden.</p>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-5">
-                  <h3 className="text-xl font-bold text-slate-900 mb-1">
-                    Kostenlose ROI-Analyse anfordern
-                  </h3>
-                  <p className="text-sm text-slate-500 mb-4">
-                    Füllen Sie das Formular aus – wir erstellen Ihre
-                    individuelle Analyse.
-                  </p>
+                  <div>
+                    <h3 className="text-lg font-semibold text-[#1D1D1F] mb-1">ROI-Analyse anfordern</h3>
+                    <p className="text-xs text-[#86868B]">Kostenlos und unverbindlich.</p>
+                  </div>
 
                   <div>
-                    <label
-                      htmlFor="name"
-                      className="block text-sm font-medium text-slate-700 mb-1"
-                    >
-                      Name *
-                    </label>
+                    <label htmlFor="name" className="block text-xs font-medium text-[#6E6E73] mb-1.5">Name *</label>
                     <div className="relative">
-                      <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                      <input
-                        id="name"
-                        type="text"
-                        required
-                        placeholder="Ihr Name"
-                        value={formData.name}
-                        onChange={(e) =>
-                          setFormData({ ...formData, name: e.target.value })
-                        }
-                        className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                      />
+                      <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#86868B]" />
+                      <input id="name" type="text" required placeholder="Ihr Name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-[#D2D2D7] bg-white text-sm text-[#1D1D1F] placeholder:text-[#86868B] focus:outline-none focus:ring-2 focus:ring-[#0071E3] focus:border-transparent" />
                     </div>
                   </div>
 
                   <div>
-                    <label
-                      htmlFor="email"
-                      className="block text-sm font-medium text-slate-700 mb-1"
-                    >
-                      E-Mail *
-                    </label>
+                    <label htmlFor="email" className="block text-xs font-medium text-[#6E6E73] mb-1.5">E-Mail *</label>
                     <div className="relative">
-                      <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                      <input
-                        id="email"
-                        type="email"
-                        required
-                        placeholder="ihre@email.at"
-                        value={formData.email}
-                        onChange={(e) =>
-                          setFormData({ ...formData, email: e.target.value })
-                        }
-                        className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                      />
+                      <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#86868B]" />
+                      <input id="email" type="email" required placeholder="ihre@email.at" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-[#D2D2D7] bg-white text-sm text-[#1D1D1F] placeholder:text-[#86868B] focus:outline-none focus:ring-2 focus:ring-[#0071E3] focus:border-transparent" />
                     </div>
                   </div>
 
                   <div>
-                    <label
-                      htmlFor="phone"
-                      className="block text-sm font-medium text-slate-700 mb-1"
-                    >
-                      Telefon{' '}
-                      <span className="text-slate-400">(optional)</span>
-                    </label>
+                    <label htmlFor="phone" className="block text-xs font-medium text-[#6E6E73] mb-1.5">Telefon <span className="text-[#86868B]">(optional)</span></label>
                     <div className="relative">
-                      <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                      <input
-                        id="phone"
-                        type="tel"
-                        placeholder="+43 ..."
-                        value={formData.phone}
-                        onChange={(e) =>
-                          setFormData({ ...formData, phone: e.target.value })
-                        }
-                        className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                      />
+                      <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#86868B]" />
+                      <input id="phone" type="tel" placeholder="+43 ..." value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-[#D2D2D7] bg-white text-sm text-[#1D1D1F] placeholder:text-[#86868B] focus:outline-none focus:ring-2 focus:ring-[#0071E3] focus:border-transparent" />
                     </div>
                   </div>
 
                   <div>
-                    <label
-                      htmlFor="branche"
-                      className="block text-sm font-medium text-slate-700 mb-1"
-                    >
-                      Branche
-                    </label>
+                    <label htmlFor="branche" className="block text-xs font-medium text-[#6E6E73] mb-1.5">Branche</label>
                     <div className="relative">
-                      <Building className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                      <select
-                        id="branche"
-                        value={formData.branche}
-                        onChange={(e) =>
-                          setFormData({ ...formData, branche: e.target.value })
-                        }
-                        className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 appearance-none bg-white"
-                      >
+                      <Building className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#86868B]" />
+                      <select id="branche" value={formData.branche} onChange={(e) => setFormData({ ...formData, branche: e.target.value })} className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-[#D2D2D7] bg-white text-sm text-[#1D1D1F] focus:outline-none focus:ring-2 focus:ring-[#0071E3] focus:border-transparent appearance-none">
                         <option value="">Bitte wählen</option>
                         <option value="restaurant">Restaurant / Gastro</option>
                         <option value="friseur">Friseur / Salon</option>
@@ -919,38 +872,17 @@ export default function Home() {
                   </div>
 
                   <div>
-                    <label
-                      htmlFor="nachricht"
-                      className="block text-sm font-medium text-slate-700 mb-1"
-                    >
-                      Nachricht{' '}
-                      <span className="text-slate-400">(optional)</span>
-                    </label>
-                    <textarea
-                      id="nachricht"
-                      rows={3}
-                      placeholder="Erzählen Sie uns kurz von Ihrem Geschäft …"
-                      value={formData.nachricht}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          nachricht: e.target.value,
-                        })
-                      }
-                      className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    />
+                    <label htmlFor="nachricht" className="block text-xs font-medium text-[#6E6E73] mb-1.5">Nachricht <span className="text-[#86868B]">(optional)</span></label>
+                    <textarea id="nachricht" rows={3} placeholder="Erzählen Sie uns kurz von Ihrem Geschäft …" value={formData.nachricht} onChange={(e) => setFormData({ ...formData, nachricht: e.target.value })} className="w-full px-4 py-2.5 rounded-xl border border-[#D2D2D7] bg-white text-sm text-[#1D1D1F] placeholder:text-[#86868B] focus:outline-none focus:ring-2 focus:ring-[#0071E3] focus:border-transparent" />
                   </div>
 
-                  <button
-                    type="submit"
-                    className="w-full flex items-center justify-center gap-2 bg-blue-600 text-white font-semibold py-3 rounded-xl hover:bg-blue-700 transition-colors"
-                  >
+                  <button type="submit" className="w-full flex items-center justify-center gap-2 bg-[#0071E3] text-white text-sm font-medium py-3 rounded-full hover:bg-[#0077ED] transition-colors">
                     <Send className="w-4 h-4" />
-                    Kostenlose ROI-Analyse anfordern
+                    ROI-Analyse anfordern
                   </button>
 
-                  <p className="text-xs text-slate-400 text-center">
-                    Antwort innerhalb von 24 Stunden. Kein Spam, versprochen.
+                  <p className="text-[11px] text-[#86868B] text-center">
+                    Antwort innerhalb von 24 Stunden.
                   </p>
                 </form>
               )}
@@ -962,33 +894,29 @@ export default function Home() {
       {/* ============================================================ */}
       {/*  FOOTER                                                       */}
       {/* ============================================================ */}
-      <footer className="py-8 bg-slate-900 text-slate-400">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-sm">
+      <footer className="py-8 border-t border-[#E8E8ED]">
+        <div className="max-w-[1120px] mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-xs text-[#86868B]">
             &copy; {new Date().getFullYear()} ChatAuto. Alle Rechte vorbehalten.
           </p>
-          <div className="flex gap-6 text-sm">
-            <a href="#" className="hover:text-white transition-colors">
-              Impressum
-            </a>
-            <a href="#" className="hover:text-white transition-colors">
-              Datenschutz
-            </a>
+          <div className="flex gap-6 text-xs text-[#86868B]">
+            <a href="#" className="hover:text-[#1D1D1F] transition-colors">Impressum</a>
+            <a href="#" className="hover:text-[#1D1D1F] transition-colors">Datenschutz</a>
           </div>
         </div>
       </footer>
 
       {/* ============================================================ */}
-      {/*  STICKY WHATSAPP BUTTON                                       */}
+      {/*  STICKY WHATSAPP                                              */}
       {/* ============================================================ */}
       <a
         href={WHATSAPP_LINK}
         target="_blank"
         rel="noopener noreferrer"
         aria-label="WhatsApp schreiben"
-        className="fixed bottom-6 right-6 z-50 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition-colors"
+        className="fixed bottom-6 right-6 z-50 bg-[#34C759] text-white p-3.5 rounded-full shadow-[0_8px_30px_rgba(0,0,0,0.1)] hover:shadow-[0_20px_60px_rgba(0,0,0,0.12)] transition-shadow"
       >
-        <MessageCircle className="w-6 h-6" />
+        <MessageCircle className="w-5 h-5" />
       </a>
     </>
   )
