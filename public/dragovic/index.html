@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>goran.md — dragovic.at</title>
+<meta name="description" content="Laborant danju, builder noću. Beč ↔ Biograd. YouTube, web, AI eksperimenti i apartmani na moru.">
+<meta name="theme-color" content="#f3efe6">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f3efe6; --ink:#1c1b19; --muted:#6b665d; --line:#d9d2c3;
+    --sea:#1d5e86; --sun:#d9822b; --card:#fbf9f4;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{ --paper:#14161a; --ink:#ece7dc; --muted:#9a948a; --line:#2b2f36; --sea:#6fb3dc; --sun:#f0a35a; --card:#1a1d22; }
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);font:400 18px/1.65 "Fraunces",Georgia,serif;-webkit-font-smoothing:antialiased}
+  .mono{font-family:"JetBrains Mono",ui-monospace,monospace}
+  a{color:var(--sea);text-decoration-thickness:1px;text-underline-offset:3px}
+  a:hover{color:var(--sun)}
+
+  /* top bar */
+  .bar{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;
+    padding:12px 22px;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);font:600 13px "JetBrains Mono",monospace}
+  .bar nav a{color:var(--muted);text-decoration:none;margin-left:18px}
+  .bar nav a:hover{color:var(--ink)}
+  .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--sun);margin-right:8px;animation:pulse 2.4s infinite}
+  @keyframes pulse{50%{opacity:.35}}
+
+  main{max-width:720px;margin:0 auto;padding:72px 24px 40px}
+
+  /* hero */
+  .file{font:600 13px "JetBrains Mono",monospace;color:var(--muted);letter-spacing:.04em}
+  h1{font-size:clamp(56px,11vw,104px);line-height:.95;margin:.15em 0 .2em;font-weight:800;letter-spacing:-.03em}
+  h1 .ext{color:var(--sea)}
+  .tagline{font-size:22px;color:var(--muted);max-width:30ch}
+  .route{display:flex;align-items:center;gap:14px;margin:34px 0 8px;font:600 14px "JetBrains Mono",monospace}
+  .route .line{flex:1;height:2px;background:repeating-linear-gradient(90deg,var(--line) 0 8px,transparent 8px 14px);position:relative}
+  .route .line::after{content:"✈";position:absolute;top:-12px;left:0;font-size:15px;color:var(--sun);animation:fly 7s ease-in-out infinite alternate}
+  @keyframes fly{to{left:calc(100% - 14px)}}
+  .route small{display:block;font-weight:400;color:var(--muted)}
+
+  /* sections */
+  h2{font:600 15px "JetBrains Mono",monospace;margin:84px 0 22px;color:var(--ink);letter-spacing:.02em}
+  h2::before{content:"## ";color:var(--sun)}
+  p{margin:0 0 1em}
+  .lead{font-size:21px}
+
+  .stack{display:grid;gap:14px}
+  .item{display:grid;grid-template-columns:44px 1fr;gap:14px;padding:20px 22px;background:var(--card);border:1px solid var(--line);border-radius:14px;transition:transform .2s,border-color .2s}
+  .item:hover{transform:translateX(4px);border-color:var(--sea)}
+  .num{font:600 13px "JetBrains Mono",monospace;color:var(--sea);padding-top:5px}
+  .item h3{margin:0 0 4px;font-size:21px;font-weight:600}
+  .item p{margin:0;color:var(--muted);font-size:16.5px}
+  .tag{display:inline-block;font:600 11px "JetBrains Mono",monospace;padding:2px 8px;border-radius:99px;border:1px solid var(--line);color:var(--muted);margin:10px 6px 0 0}
+
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .city{padding:22px;border-radius:14px;border:1px solid var(--line);background:var(--card)}
+  .city b{font:600 12px "JetBrains Mono",monospace;color:var(--sun);letter-spacing:.06em}
+  .city h3{margin:6px 0 6px;font-size:26px}
+  .city p{color:var(--muted);font-size:16px;margin:0}
+
+  .now{border-left:3px solid var(--sun);padding:4px 0 4px 20px}
+  .now li{margin:.35em 0}
+  ul.rules{list-style:none;padding:0;margin:0}
+  ul.rules li{padding:12px 0;border-bottom:1px dashed var(--line)}
+  ul.rules li::before{content:"→ ";color:var(--sea);font-family:"JetBrains Mono",monospace}
+
+  .contact{margin-top:84px;padding:34px;border-radius:18px;background:var(--ink);color:var(--paper)}
+  .contact h2{margin:0 0 10px;color:var(--paper)}
+  .contact a{color:var(--paper);font:600 clamp(20px,4.5vw,30px) "Fraunces",serif}
+  .contact a:hover{color:var(--sun)}
+  .contact p{opacity:.7;font-size:16px;margin:10px 0 0}
+
+  footer{max-width:720px;margin:0 auto;padding:30px 24px 60px;display:flex;justify-content:space-between;font:400 12px "JetBrains Mono",monospace;color:var(--muted)}
+
+  .reveal{opacity:0;transform:translateY(14px);transition:opacity .7s,transform .7s}
+  .reveal.on{opacity:1;transform:none}
+  @media (max-width:600px){ .split{grid-template-columns:1fr} .bar nav a:not(:last-child){display:none} body{font-size:17px} }
+  @media (prefers-reduced-motion:reduce){ *{animation:none!important;transition:none!important} .reveal{opacity:1;transform:none} }
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <span><span class="dot"></span>dragovic.at</span>
+  <nav><a href="#sto">što radim</a><a href="#sad">sad</a><a href="#kontakt">kontakt</a></nav>
+</div>
+
+<main>
+  <div class="file">~/goran.md &nbsp;·&nbsp; zadnja izmjena: studeni 2026.</div>
+  <h1>goran<span class="ext">.md</span></h1>
+  <p class="tagline">laborant danju. builder navečer. negdje između bečkog tramvaja i biogradske rive.</p>
+
+  <div class="route">
+    <span>BEČ<small>tu živim i radim</small></span>
+    <span class="line"></span>
+    <span style="text-align:right">BIOGRAD<small>odavde sam</small></span>
+  </div>
+
+  <h2 class="reveal">ukratko</h2>
+  <p class="lead reveal">Hrvat iz Biograda na Moru, više od deset godina u Austriji. Puno radno vrijeme u medicinskom laboratoriju — epruvete, analizatori, rezultati koji moraju biti točni. Sve ostalo radim poslije smjene.</p>
+  <p class="reveal">Ova stranica nije CV. Ovo je bilježnica: što radim, što isprobavam i čemu se stalno vraćam.</p>
+
+  <h2 id="sto" class="reveal">što radim</h2>
+  <div class="stack">
+    <div class="item reveal"><span class="num">01</span><div>
+      <h3>laboratorij, full time</h3>
+      <p>Posao koji me naučio da se ništa ne pretpostavlja — sve se provjeri dvaput. Ta navika ide sa mnom u sve ostalo.</p>
+      <span class="tag">medicinska dijagnostika</span><span class="tag">beč</span>
+    </div></div>
+    <div class="item reveal"><span class="num">02</span><div>
+      <h3>youtube</h3>
+      <p><a href="https://www.youtube.com/@horizontkanal" target="_blank" rel="noopener">Horizont</a> — kanal na hrvatskom: novac, nekretnine, povijest i karte. Plus <a href="https://www.youtube.com/@skypostcards" target="_blank" rel="noopener">Sky Postcards</a>, 3D letovi iznad gradova. Sve produciram s AI alatima, bez studija i bez ekipe.</p>
+      <span class="tag">shorts</span><span class="tag">dokumentarci</span><span class="tag">ai produkcija</span>
+    </div></div>
+    <div class="item reveal"><span class="num">03</span><div>
+      <h3>web stranice</h3>
+      <p>Radim stranice za male firme i vlastite projekte — od WordPressa do Next.js-a. Brzo, jasno, bez nepotrebnih slojeva.</p>
+      <span class="tag">wordpress</span><span class="tag">next.js</span><span class="tag">seo</span>
+    </div></div>
+    <div class="item reveal"><span class="num">04</span><div>
+      <h3>ai eksperimenti</h3>
+      <p>Chatbotovi za goste, automatski video pipelineovi, alati za vlasnike stanova. Neki rade, neki ne. Oni koji ne rade nauče me više.</p>
+      <span class="tag">guest buddy</span><span class="tag">automatizacija</span><span class="tag">prototipovi</span>
+    </div></div>
+    <div class="item reveal"><span class="num">05</span><div>
+      <h3>host na moru</h3>
+      <p>Apartmani u Dalmaciji, iznajmljivanje gostima iz cijele Europe. Odatle i većina mojih ideja — svaki problem gosta je potencijalni alat.</p>
+      <span class="tag">airbnb</span><span class="tag">dalmacija</span>
+    </div></div>
+    <div class="item reveal"><span class="num">06</span><div>
+      <h3>gradnja</h3>
+      <p>Trenutno najveći projekt: kuća s bazenom u Hrvatskoj, od temelja. Pratim svaki korak — troškove, odluke, greške.</p>
+      <span class="tag">u tijeku</span>
+    </div></div>
+  </div>
+
+  <h2 class="reveal">dva grada</h2>
+  <div class="split">
+    <div class="city reveal"><b>48.2° N</b><h3>Beč</h3><p>Posao, red, tramvaj u 6:40. Grad u kojem se uči strpljenje i sustav.</p></div>
+    <div class="city reveal"><b>43.9° N</b><h3>Biograd</h3><p>Odakle sam. More, bura, kamen. Mjesto gdje se ideje pretvaraju u nešto opipljivo.</p></div>
+  </div>
+
+  <h2 id="sad" class="reveal">sad (studeni 2026.)</h2>
+  <ul class="now reveal">
+    <li>gradilište u Hrvatskoj — faza po faza</li>
+    <li>Horizont: više long-form videa, manje samo-shortsa</li>
+    <li>Sky Postcards: cilj je potpuno automatiziran kanal</li>
+    <li>alat za izračun najamnine za bečke upravitelje zgrada</li>
+  </ul>
+
+  <h2 class="reveal">pravila koja pokušavam držati</h2>
+  <ul class="rules reveal">
+    <li>prvo napravi, onda analiziraj.</li>
+    <li>ako se ponavlja triput — automatiziraj.</li>
+    <li>mali projekt koji radi &gt; veliki koji čeka.</li>
+    <li>provjeri dvaput. laboratorijska navika.</li>
+    <li>vikend je za obitelj, ne za deploy.</li>
+  </ul>
+
+  <section class="contact reveal" id="kontakt">
+    <h2>kontakt</h2>
+    <a href="mailto:goran@dragovic.at">goran@dragovic.at</a>
+    <p>suradnja, web, video ili samo pozdrav iz Beča — javi se.</p>
+  </section>
+</main>
+
+<footer><span>— g.</span><span>beč ↔ biograd · 2026</span></footer>
+
+<script>
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}}),{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
