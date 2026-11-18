@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="hr">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>goran.md — dragovic.at</title>
-<meta name="description" content="Laborant danju, builder noću. Beč ↔ Biograd. YouTube, web, AI eksperimenti i apartmani na moru.">
+<meta name="description" content="Lab technician by day, builder after hours. Vienna-based, Biograd-born. YouTube, websites, AI for people, hosts and small businesses.">
 <meta name="theme-color" content="#f3efe6">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,38 +19,58 @@
   }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{margin:0;background:var(--paper);color:var(--ink);font:400 18px/1.65 "Fraunces",Georgia,serif;-webkit-font-smoothing:antialiased}
-  .mono{font-family:"JetBrains Mono",ui-monospace,monospace}
+  body{margin:0;background:var(--paper);color:var(--ink);font:400 18px/1.65 "Fraunces",Georgia,serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
   a{color:var(--sea);text-decoration-thickness:1px;text-underline-offset:3px}
   a:hover{color:var(--sun)}
 
-  /* top bar */
-  .bar{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;
-    padding:12px 22px;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(8px);
+  .bar{position:fixed;inset:0 0 auto 0;z-index:20;display:flex;justify-content:space-between;align-items:center;
+    padding:12px 22px;background:color-mix(in srgb,var(--paper) 85%,transparent);backdrop-filter:blur(8px);
     border-bottom:1px solid var(--line);font:600 13px "JetBrains Mono",monospace}
   .bar nav a{color:var(--muted);text-decoration:none;margin-left:18px}
   .bar nav a:hover{color:var(--ink)}
   .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--sun);margin-right:8px;animation:pulse 2.4s infinite}
   @keyframes pulse{50%{opacity:.35}}
 
-  main{max-width:720px;margin:0 auto;padding:72px 24px 40px}
+  main,.wrap{max-width:740px;margin:0 auto;padding:0 24px}
 
   /* hero */
+  .hero{padding:130px 0 40px}
   .file{font:600 13px "JetBrains Mono",monospace;color:var(--muted);letter-spacing:.04em}
-  h1{font-size:clamp(56px,11vw,104px);line-height:.95;margin:.15em 0 .2em;font-weight:800;letter-spacing:-.03em}
+  h1{font-size:clamp(60px,12vw,112px);line-height:.95;margin:.15em 0 .2em;font-weight:800;letter-spacing:-.03em}
   h1 .ext{color:var(--sea)}
-  .tagline{font-size:22px;color:var(--muted);max-width:30ch}
-  .route{display:flex;align-items:center;gap:14px;margin:34px 0 8px;font:600 14px "JetBrains Mono",monospace}
-  .route .line{flex:1;height:2px;background:repeating-linear-gradient(90deg,var(--line) 0 8px,transparent 8px 14px);position:relative}
-  .route .line::after{content:"✈";position:absolute;top:-12px;left:0;font-size:15px;color:var(--sun);animation:fly 7s ease-in-out infinite alternate}
-  @keyframes fly{to{left:calc(100% - 14px)}}
-  .route small{display:block;font-weight:400;color:var(--muted)}
+  .tagline{font-size:23px;color:var(--muted);max-width:32ch;margin:0}
+  .scroll-hint{margin-top:38px;font:600 12px "JetBrains Mono",monospace;color:var(--muted);display:flex;align-items:center;gap:10px}
+  .scroll-hint i{display:block;width:1px;height:34px;background:var(--muted);animation:drop 1.8s infinite}
+  @keyframes drop{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+  /* ---------- journey scene ---------- */
+  .journey{position:relative;height:420vh}
+  .stage{position:sticky;top:0;height:100vh;overflow:hidden;background:linear-gradient(#bcd3e6,#eef3f7)}
+  .layer{position:absolute;bottom:0;left:0;height:100%;width:auto;will-change:transform}
+  .sunball{position:absolute;width:90px;height:90px;border-radius:50%;background:radial-gradient(circle,#fff6d8,#ffd27a 55%,rgba(255,200,110,0) 72%);filter:blur(.3px)}
+  .traveler{position:absolute;left:50%;bottom:15.5%;height:34%;transform:translateX(-50%);z-index:4;animation:bob 1.6s ease-in-out infinite}
+  .traveler img,.traveler svg{height:100%;width:auto;display:block;margin:0 auto}
+  .traveler img.g{position:absolute;bottom:0;left:50%;transform:translateX(-50%);opacity:0;transition:opacity .35s}
+  .traveler img.g.on{opacity:1}
+  .traveler{width:30vh}
+  @keyframes bob{50%{transform:translate(-50%,-4px)}}
+  .caption{position:absolute;top:16%;left:6%;max-width:min(440px,80vw);z-index:5;opacity:0;transition:opacity .25s}
+  .caption b{display:block;font:600 12px "JetBrains Mono",monospace;letter-spacing:.08em;color:#1d3d55;margin-bottom:6px}
+  .caption span{display:inline;font:600 clamp(24px,4vw,40px)/1.15 "Fraunces",serif;color:#13202b;background:rgba(255,255,255,.55);box-decoration-break:clone;-webkit-box-decoration-break:clone;padding:2px 8px}
+  .progress{position:absolute;bottom:22px;left:6%;right:6%;height:3px;background:rgba(0,0,0,.12);border-radius:3px;z-index:5}
+  .progress i{display:block;height:100%;width:0;background:#13202b;border-radius:3px}
+  .progress em{position:absolute;top:-22px;font:600 11px "JetBrains Mono",monospace;font-style:normal;color:#13202b}
 
   /* sections */
-  h2{font:600 15px "JetBrains Mono",monospace;margin:84px 0 22px;color:var(--ink);letter-spacing:.02em}
+  h2{font:600 15px "JetBrains Mono",monospace;margin:90px 0 22px;letter-spacing:.02em}
   h2::before{content:"## ";color:var(--sun)}
   p{margin:0 0 1em}
   .lead{font-size:21px}
+
+  .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  .stat{padding:22px;border-radius:14px;background:var(--card);border:1px solid var(--line)}
+  .stat .n{font:800 46px/1 "Fraunces",serif;letter-spacing:-.02em;color:var(--sea)}
+  .stat .l{font-size:15.5px;color:var(--muted);margin-top:8px}
 
   .stack{display:grid;gap:14px}
   .item{display:grid;grid-template-columns:44px 1fr;gap:14px;padding:20px 22px;background:var(--card);border:1px solid var(--line);border-radius:14px;transition:transform .2s,border-color .2s}
@@ -60,11 +80,13 @@
   .item p{margin:0;color:var(--muted);font-size:16.5px}
   .tag{display:inline-block;font:600 11px "JetBrains Mono",monospace;padding:2px 8px;border-radius:99px;border:1px solid var(--line);color:var(--muted);margin:10px 6px 0 0}
 
-  .split{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-  .city{padding:22px;border-radius:14px;border:1px solid var(--line);background:var(--card)}
-  .city b{font:600 12px "JetBrains Mono",monospace;color:var(--sun);letter-spacing:.06em}
-  .city h3{margin:6px 0 6px;font-size:26px}
-  .city p{color:var(--muted);font-size:16px;margin:0}
+  .help{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .hcard{padding:22px;border-radius:14px;background:var(--card);border:1px solid var(--line);border-top:4px solid var(--sea)}
+  .hcard:nth-child(2){border-top-color:var(--sun)}
+  .hcard:nth-child(3){border-top-color:#4f8a5b}
+  .hcard h3{margin:0 0 8px;font-size:20px}
+  .hcard ul{margin:0;padding-left:18px;color:var(--muted);font-size:15.5px}
+  .hcard li{margin:.3em 0}
 
   .now{border-left:3px solid var(--sun);padding:4px 0 4px 20px}
   .now li{margin:.35em 0}
@@ -72,17 +94,17 @@
   ul.rules li{padding:12px 0;border-bottom:1px dashed var(--line)}
   ul.rules li::before{content:"→ ";color:var(--sea);font-family:"JetBrains Mono",monospace}
 
-  .contact{margin-top:84px;padding:34px;border-radius:18px;background:var(--ink);color:var(--paper)}
+  .contact{margin-top:90px;padding:34px;border-radius:18px;background:var(--ink);color:var(--paper)}
   .contact h2{margin:0 0 10px;color:var(--paper)}
   .contact a{color:var(--paper);font:600 clamp(20px,4.5vw,30px) "Fraunces",serif}
   .contact a:hover{color:var(--sun)}
   .contact p{opacity:.7;font-size:16px;margin:10px 0 0}
 
-  footer{max-width:720px;margin:0 auto;padding:30px 24px 60px;display:flex;justify-content:space-between;font:400 12px "JetBrains Mono",monospace;color:var(--muted)}
+  footer{max-width:740px;margin:0 auto;padding:30px 24px 60px;display:flex;justify-content:space-between;font:400 12px "JetBrains Mono",monospace;color:var(--muted)}
 
   .reveal{opacity:0;transform:translateY(14px);transition:opacity .7s,transform .7s}
   .reveal.on{opacity:1;transform:none}
-  @media (max-width:600px){ .split{grid-template-columns:1fr} .bar nav a:not(:last-child){display:none} body{font-size:17px} }
+  @media (max-width:680px){ .help{grid-template-columns:1fr} .stats{grid-template-columns:1fr 1fr} .stat .n{font-size:36px} .bar nav a:not(:last-child){display:none} body{font-size:17px} }
   @media (prefers-reduced-motion:reduce){ *{animation:none!important;transition:none!important} .reveal{opacity:1;transform:none} }
 </style>
 </head>
@@ -90,93 +112,323 @@
 
 <div class="bar">
   <span><span class="dot"></span>dragovic.at</span>
-  <nav><a href="#sto">što radim</a><a href="#sad">sad</a><a href="#kontakt">kontakt</a></nav>
+  <nav><a href="#what">what I do</a><a href="#help">AI help</a><a href="#contact">contact</a></nav>
 </div>
 
 <main>
-  <div class="file">~/goran.md &nbsp;·&nbsp; zadnja izmjena: studeni 2026.</div>
-  <h1>goran<span class="ext">.md</span></h1>
-  <p class="tagline">laborant danju. builder navečer. negdje između bečkog tramvaja i biogradske rive.</p>
-
-  <div class="route">
-    <span>BEČ<small>tu živim i radim</small></span>
-    <span class="line"></span>
-    <span style="text-align:right">BIOGRAD<small>odavde sam</small></span>
-  </div>
-
-  <h2 class="reveal">ukratko</h2>
-  <p class="lead reveal">Hrvat iz Biograda na Moru, više od deset godina u Austriji. Puno radno vrijeme u medicinskom laboratoriju — epruvete, analizatori, rezultati koji moraju biti točni. Sve ostalo radim poslije smjene.</p>
-  <p class="reveal">Ova stranica nije CV. Ovo je bilježnica: što radim, što isprobavam i čemu se stalno vraćam.</p>
-
-  <h2 id="sto" class="reveal">što radim</h2>
-  <div class="stack">
-    <div class="item reveal"><span class="num">01</span><div>
-      <h3>laboratorij, full time</h3>
-      <p>Posao koji me naučio da se ništa ne pretpostavlja — sve se provjeri dvaput. Ta navika ide sa mnom u sve ostalo.</p>
-      <span class="tag">medicinska dijagnostika</span><span class="tag">beč</span>
-    </div></div>
-    <div class="item reveal"><span class="num">02</span><div>
-      <h3>youtube</h3>
-      <p><a href="https://www.youtube.com/@horizontkanal" target="_blank" rel="noopener">Horizont</a> — kanal na hrvatskom: novac, nekretnine, povijest i karte. Plus <a href="https://www.youtube.com/@skypostcards" target="_blank" rel="noopener">Sky Postcards</a>, 3D letovi iznad gradova. Sve produciram s AI alatima, bez studija i bez ekipe.</p>
-      <span class="tag">shorts</span><span class="tag">dokumentarci</span><span class="tag">ai produkcija</span>
-    </div></div>
-    <div class="item reveal"><span class="num">03</span><div>
-      <h3>web stranice</h3>
-      <p>Radim stranice za male firme i vlastite projekte — od WordPressa do Next.js-a. Brzo, jasno, bez nepotrebnih slojeva.</p>
-      <span class="tag">wordpress</span><span class="tag">next.js</span><span class="tag">seo</span>
-    </div></div>
-    <div class="item reveal"><span class="num">04</span><div>
-      <h3>ai eksperimenti</h3>
-      <p>Chatbotovi za goste, automatski video pipelineovi, alati za vlasnike stanova. Neki rade, neki ne. Oni koji ne rade nauče me više.</p>
-      <span class="tag">guest buddy</span><span class="tag">automatizacija</span><span class="tag">prototipovi</span>
-    </div></div>
-    <div class="item reveal"><span class="num">05</span><div>
-      <h3>host na moru</h3>
-      <p>Apartmani u Dalmaciji, iznajmljivanje gostima iz cijele Europe. Odatle i većina mojih ideja — svaki problem gosta je potencijalni alat.</p>
-      <span class="tag">airbnb</span><span class="tag">dalmacija</span>
-    </div></div>
-    <div class="item reveal"><span class="num">06</span><div>
-      <h3>gradnja</h3>
-      <p>Trenutno najveći projekt: kuća s bazenom u Hrvatskoj, od temelja. Pratim svaki korak — troškove, odluke, greške.</p>
-      <span class="tag">u tijeku</span>
-    </div></div>
-  </div>
-
-  <h2 class="reveal">dva grada</h2>
-  <div class="split">
-    <div class="city reveal"><b>48.2° N</b><h3>Beč</h3><p>Posao, red, tramvaj u 6:40. Grad u kojem se uči strpljenje i sustav.</p></div>
-    <div class="city reveal"><b>43.9° N</b><h3>Biograd</h3><p>Odakle sam. More, bura, kamen. Mjesto gdje se ideje pretvaraju u nešto opipljivo.</p></div>
-  </div>
-
-  <h2 id="sad" class="reveal">sad (studeni 2026.)</h2>
-  <ul class="now reveal">
-    <li>gradilište u Hrvatskoj — faza po faza</li>
-    <li>Horizont: više long-form videa, manje samo-shortsa</li>
-    <li>Sky Postcards: cilj je potpuno automatiziran kanal</li>
-    <li>alat za izračun najamnine za bečke upravitelje zgrada</li>
-  </ul>
-
-  <h2 class="reveal">pravila koja pokušavam držati</h2>
-  <ul class="rules reveal">
-    <li>prvo napravi, onda analiziraj.</li>
-    <li>ako se ponavlja triput — automatiziraj.</li>
-    <li>mali projekt koji radi &gt; veliki koji čeka.</li>
-    <li>provjeri dvaput. laboratorijska navika.</li>
-    <li>vikend je za obitelj, ne za deploy.</li>
-  </ul>
-
-  <section class="contact reveal" id="kontakt">
-    <h2>kontakt</h2>
-    <a href="mailto:goran@dragovic.at">goran@dragovic.at</a>
-    <p>suradnja, web, video ili samo pozdrav iz Beča — javi se.</p>
+  <section class="hero">
+    <div class="file">~/goran.md &nbsp;·&nbsp; last edited: november 2026</div>
+    <h1>goran<span class="ext">.md</span></h1>
+    <p class="tagline">Lab technician by day. Builder after hours. Father of two. Living in Vienna, from Biograd na Moru.</p>
+    <div class="scroll-hint"><i></i>scroll — take the road with me</div>
   </section>
 </main>
 
-<footer><span>— g.</span><span>beč ↔ biograd · 2026</span></footer>
+<!-- ================= JOURNEY: Vienna → Biograd ================= -->
+<section class="journey" id="journey">
+  <div class="stage" id="stage">
+    <div class="sunball" id="sun"></div>
+
+    <!-- FAR LAYER: hills, Alps, islands -->
+    <svg class="layer" id="far" viewBox="0 0 3000 800" preserveAspectRatio="xMinYMax meet" aria-hidden="true">
+      <path d="M0 600 Q150 520 300 570 T600 560 T900 580 V800 H0Z" fill="#a9c0b4"/>
+      <path d="M700 620 L850 430 L930 500 L1040 360 L1150 480 L1260 400 L1380 560 L1450 620Z" fill="#9aaebf"/>
+      <path d="M1040 360 L1000 410 L1030 400 L1060 420 L1085 395Z M1260 400 L1230 435 L1255 428 L1280 440Z M850 430 L825 462 L850 455 L872 465Z" fill="#fff"/>
+      <path d="M1380 640 L1500 520 L1600 580 L1720 500 L1850 600 V800 H1380Z" fill="#a7b9a3"/>
+      <!-- islands on the horizon -->
+      <path d="M1700 612 Q1820 560 1980 600 Q2080 590 2160 612Z" fill="#8fa6a8"/>
+      <path d="M2180 614 Q2260 585 2380 610Z" fill="#9db1b2"/>
+      <path d="M2400 615 Q2520 575 2700 612Z" fill="#8fa6a8"/>
+      <rect x="1650" y="612" width="1350" height="200" fill="#5d9cc4"/>
+    </svg>
+
+    <!-- MID LAYER: cities -->
+    <svg class="layer" id="mid" viewBox="0 0 3000 800" preserveAspectRatio="xMinYMax meet" aria-hidden="true">
+      <defs>
+        <pattern id="tiles" width="16" height="12" patternUnits="userSpaceOnUse">
+          <rect width="16" height="12" fill="#c9a227"/><path d="M0 12 L8 0 L16 12" fill="#2f6b4f"/>
+        </pattern>
+        <pattern id="win" width="22" height="30" patternUnits="userSpaceOnUse">
+          <rect width="22" height="30" fill="none"/><rect x="5" y="6" width="10" height="15" fill="#6c7f8f" opacity=".55"/>
+        </pattern>
+        <linearGradient id="seaG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2d86b9"/><stop offset="1" stop-color="#18577f"/></linearGradient>
+      </defs>
+
+      <!-- ===== VIENNA ===== -->
+      <rect x="0" y="640" width="2000" height="160" fill="#cfc6b4"/>
+      <rect x="0" y="652" width="2000" height="5" fill="#b8ae99"/>
+      <!-- background buildings -->
+      <g fill="#e6dccb" stroke="#cbbfa9">
+        <rect x="20" y="500" width="170" height="140"/><rect x="440" y="520" width="120" height="120"/>
+        <rect x="1060" y="510" width="120" height="130"/><rect x="120" y="540" width="110" height="100"/>
+      </g>
+      <rect x="20" y="500" width="170" height="140" fill="url(#win)"/>
+      <rect x="440" y="520" width="120" height="120" fill="url(#win)"/>
+      <rect x="1060" y="510" width="120" height="130" fill="url(#win)"/>
+      <!-- Stephansdom -->
+      <g>
+        <rect x="230" y="480" width="210" height="160" fill="#a49884"/>
+        <polygon points="230,480 440,480 418,425 252,425" fill="url(#tiles)"/>
+        <rect x="292" y="300" width="54" height="180" fill="#8f836f"/>
+        <polygon points="288,300 350,300 319,135" fill="#7d725f"/>
+        <line x1="319" y1="135" x2="319" y2="115" stroke="#7d725f" stroke-width="4"/>
+        <g fill="#6b6152"><rect x="305" y="330" width="9" height="26" rx="4"/><rect x="324" y="330" width="9" height="26" rx="4"/><rect x="305" y="390" width="9" height="26" rx="4"/><rect x="324" y="390" width="9" height="26" rx="4"/></g>
+        <g fill="#6b6152"><rect x="250" y="510" width="14" height="36" rx="7"/><rect x="390" y="510" width="14" height="36" rx="7"/><rect x="365" y="580" width="26" height="60" rx="13"/></g>
+      </g>
+      <!-- Riesenrad -->
+      <g transform="translate(700 445)">
+        <line x1="0" y1="0" x2="-85" y2="195" stroke="#5b5b5b" stroke-width="6"/>
+        <line x1="0" y1="0" x2="85" y2="195" stroke="#5b5b5b" stroke-width="6"/>
+        <g id="wheel">
+          <circle r="150" fill="none" stroke="#b23a3a" stroke-width="6"/>
+          <circle r="138" fill="none" stroke="#b23a3a" stroke-width="2"/>
+          <g stroke="#b23a3a" stroke-width="1.6">
+            <line x1="-150" y1="0" x2="150" y2="0"/><line x1="0" y1="-150" x2="0" y2="150"/>
+            <line x1="-106" y1="-106" x2="106" y2="106"/><line x1="-106" y1="106" x2="106" y2="-106"/>
+            <line x1="-139" y1="-57" x2="139" y2="57"/><line x1="-139" y1="57" x2="139" y2="-57"/>
+            <line x1="-57" y1="-139" x2="57" y2="139"/><line x1="-57" y1="139" x2="57" y2="-139"/>
+          </g>
+          <g fill="#c94a3c">
+            <rect x="139" y="-8" width="20" height="16" rx="3"/><rect x="-159" y="-8" width="20" height="16" rx="3"/>
+            <rect x="-10" y="-160" width="20" height="16" rx="3"/><rect x="-10" y="144" width="20" height="16" rx="3"/>
+            <rect x="96" y="-116" width="20" height="16" rx="3"/><rect x="-116" y="-116" width="20" height="16" rx="3"/>
+            <rect x="96" y="100" width="20" height="16" rx="3"/><rect x="-116" y="100" width="20" height="16" rx="3"/>
+          </g>
+        </g>
+        <circle r="10" fill="#5b5b5b"/>
+      </g>
+      <!-- Karlskirche -->
+      <g>
+        <rect x="880" y="525" width="170" height="115" fill="#efe7d6"/>
+        <polygon points="925,525 1005,525 965,490" fill="#e3d8c2"/>
+        <rect x="935" y="460" width="60" height="65" fill="#efe7d6"/>
+        <path d="M925 465 Q965 380 1005 465Z" fill="#6f9e8c"/>
+        <rect x="959" y="395" width="12" height="22" fill="#6f9e8c"/>
+        <rect x="892" y="450" width="18" height="190" fill="#e1d6bf"/><rect x="1020" y="450" width="18" height="190" fill="#e1d6bf"/>
+        <path d="M948 640 v-40 a17 17 0 0 1 34 0 v40" fill="#8f836f"/>
+      </g>
+      <!-- lamp posts -->
+      <g stroke="#3d3d3d" stroke-width="4"><line x1="560" y1="640" x2="560" y2="560"/><line x1="1200" y1="640" x2="1200" y2="560"/></g>
+      <g fill="#ffdf8a"><circle cx="560" cy="556" r="8"/><circle cx="1200" cy="556" r="8"/></g>
+
+      <!-- ===== THE ROAD (Alps) ===== -->
+      <path d="M1230 640 L1380 470 L1450 540 L1560 400 L1680 560 L1760 500 L1880 640Z" fill="#7f9183"/>
+      <path d="M1560 400 L1525 445 L1550 438 L1575 452 L1600 430Z M1380 470 L1357 497 L1380 490 L1400 500Z" fill="#fff"/>
+      <g transform="translate(1560 560)">
+        <line x1="0" y1="0" x2="0" y2="80" stroke="#555" stroke-width="5"/>
+        <rect x="-95" y="-38" width="190" height="44" rx="5" fill="#2f7a4b" stroke="#fff" stroke-width="3"/>
+        <text x="0" y="-9" text-anchor="middle" font-family="JetBrains Mono,monospace" font-weight="600" font-size="17" fill="#fff">← WIEN · BIOGRAD →</text>
+      </g>
+
+      <!-- ===== BIOGRAD ===== -->
+      <rect x="1950" y="600" width="1050" height="200" fill="url(#seaG)"/>
+      <g stroke="#bfe0f2" stroke-width="2" fill="none" opacity=".7">
+        <path d="M2080 690 q15 -8 30 0 t30 0"/><path d="M2400 720 q15 -8 30 0 t30 0"/><path d="M2700 680 q15 -8 30 0 t30 0"/><path d="M2900 740 q15 -8 30 0 t30 0"/>
+      </g>
+      <rect x="1950" y="588" width="620" height="34" fill="#ece3cf"/>
+      <rect x="1950" y="618" width="620" height="8" fill="#cfc2a6"/>
+      <!-- stone houses -->
+      <g>
+        <rect x="1975" y="480" width="110" height="108" fill="#efe6d3"/><polygon points="1968,482 2092,482 2030,440" fill="#c4552d"/>
+        <rect x="2085" y="500" width="90" height="88" fill="#e8dcc3"/><polygon points="2080,502 2180,502 2130,468" fill="#b84a27"/>
+        <g fill="#3f7d5a"><rect x="1995" y="505" width="18" height="26"/><rect x="2045" y="505" width="18" height="26"/><rect x="1995" y="545" width="18" height="26"/><rect x="2105" y="520" width="16" height="24"/><rect x="2140" y="520" width="16" height="24"/></g>
+        <rect x="2380" y="495" width="120" height="93" fill="#efe6d3"/><polygon points="2374,497 2506,497 2440,458" fill="#c4552d"/>
+        <g fill="#3f7d5a"><rect x="2398" y="520" width="18" height="26"/><rect x="2462" y="520" width="18" height="26"/></g>
+      </g>
+      <!-- campanile -->
+      <g>
+        <rect x="2240" y="330" width="56" height="258" fill="#f2eadb" stroke="#d8ccb2"/>
+        <path d="M2256 372 v-14 a12 12 0 0 1 24 0 v14Z" fill="#6b5b47"/>
+        <path d="M2256 420 v-10 a12 12 0 0 1 24 0 v10Z" fill="#6b5b47" opacity=".7"/>
+        <polygon points="2234,330 2302,330 2268,268" fill="#c4552d"/>
+        <line x1="2268" y1="268" x2="2268" y2="244" stroke="#555" stroke-width="3"/><line x1="2259" y1="254" x2="2277" y2="254" stroke="#555" stroke-width="3"/>
+      </g>
+      <!-- palms -->
+      <g id="palm">
+        <path d="M2190 588 Q2196 520 2180 455" stroke="#8a6a45" stroke-width="10" fill="none" stroke-linecap="round"/>
+        <g fill="#3f8a4f">
+          <path d="M2180 455 Q2130 430 2100 470 Q2140 445 2180 460Z"/>
+          <path d="M2180 455 Q2230 425 2262 465 Q2220 442 2180 460Z"/>
+          <path d="M2180 455 Q2150 405 2112 410 Q2155 420 2180 458Z"/>
+          <path d="M2180 455 Q2215 400 2252 408 Q2210 420 2180 458Z"/>
+          <path d="M2180 455 Q2185 410 2175 392 Q2195 420 2183 458Z"/>
+        </g>
+      </g>
+      <use href="#palm" transform="translate(370 10) scale(.95 .98)"/>
+      <!-- sailboats -->
+      <g id="boat" transform="translate(0 -28)">
+        <path d="M2600 640 h120 l-18 24 h-86Z" fill="#fff" stroke="#9fb3c0"/>
+        <line x1="2655" y1="640" x2="2655" y2="490" stroke="#666" stroke-width="3"/>
+        <polygon points="2659,495 2659,632 2720,632" fill="#fff"/>
+        <polygon points="2651,505 2651,632 2610,632" fill="#f3efe6"/>
+      </g>
+      <use href="#boat" transform="translate(630 71) scale(.85)" />
+      <use href="#boat" transform="translate(1130 167) scale(.7)" />
+      <!-- riva in front, where I walk -->
+      <rect x="1950" y="636" width="1050" height="54" fill="#ece3cf"/>
+      <rect x="1950" y="636" width="1050" height="5" fill="#d8ccb2"/>
+      <rect x="1950" y="686" width="1050" height="8" fill="#cfc2a6"/>
+      <g fill="#c9bc9f"><rect x="2100" y="650" width="40" height="3"/><rect x="2350" y="664" width="40" height="3"/><rect x="2650" y="650" width="40" height="3"/><rect x="2880" y="668" width="40" height="3"/></g>
+      <!-- pier lamp -->
+      <line x1="2540" y1="588" x2="2540" y2="520" stroke="#3d3d3d" stroke-width="4"/><circle cx="2540" cy="516" r="8" fill="#ffdf8a"/>
+    </svg>
+
+    <!-- traveler (caricature). Drop goran.png next to this file and it appears automatically. -->
+    <div class="traveler" id="traveler">
+      <img class="g" data-s="0" src="goran-vienna.png" alt="Goran in Vienna" onerror="this.remove()">
+      <img class="g" data-s="1" src="goran-road.png" alt="Goran on the road" onerror="this.remove()">
+      <img class="g" data-s="2" src="goran-biograd.png" alt="Goran in Biograd" onerror="this.remove()">
+      <svg id="fallbackGuy" style="display:none" viewBox="0 0 120 230" aria-hidden="true">
+        <ellipse cx="60" cy="226" rx="34" ry="4" fill="rgba(0,0,0,.18)"/>
+        <rect x="44" y="150" width="13" height="72" rx="6" fill="#2d3b4f"/><rect x="63" y="150" width="13" height="72" rx="6" fill="#2d3b4f"/>
+        <rect x="38" y="216" width="22" height="9" rx="4" fill="#222"/><rect x="62" y="216" width="22" height="9" rx="4" fill="#222"/>
+        <path d="M34 80 Q60 68 86 80 L92 170 H28Z" fill="#fff" stroke="#cfd6dd" stroke-width="2"/>
+        <path d="M52 76 L60 120 L68 76Z" fill="#3a6f9b"/>
+        <rect x="86" y="96" width="30" height="22" rx="3" fill="#8a96a3" transform="rotate(8 101 107)"/>
+        <rect x="18" y="84" width="14" height="60" rx="7" fill="#fff" stroke="#cfd6dd" stroke-width="2" transform="rotate(10 25 84)"/>
+        <rect x="88" y="84" width="14" height="40" rx="7" fill="#fff" stroke="#cfd6dd" stroke-width="2"/>
+        <circle cx="60" cy="46" r="27" fill="#e9b996"/>
+        <path d="M33 44 Q36 16 62 18 Q86 18 88 42 Q80 30 62 30 Q44 30 33 44Z" fill="#3a2a20"/>
+        <circle cx="50" cy="48" r="7" fill="none" stroke="#222" stroke-width="2"/><circle cx="70" cy="48" r="7" fill="none" stroke="#222" stroke-width="2"/><line x1="57" y1="48" x2="63" y2="48" stroke="#222" stroke-width="2"/>
+        <path d="M51 60 Q60 67 69 60" stroke="#8a4a3a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <div class="caption" data-a="0" data-b=".3"><b>01 · VIENNA</b><span>The day job: full time in a medical lab. Precision first.</span></div>
+    <div class="caption" data-a=".3" data-b=".64"><b>02 · THE ROAD</b><span>Evenings and weekends: videos, websites, AI experiments.</span></div>
+    <div class="caption" data-a=".64" data-b="1.01"><b>03 · BIOGRAD NA MORU</b><span>Home. The sea, the stone, the guests, the house I'm building.</span></div>
+
+    <div class="progress"><em style="left:0">WIEN</em><em style="right:0">BIOGRAD</em><i id="bar"></i></div>
+  </div>
+</section>
+
+<main>
+  <h2 class="reveal">tl;dr</h2>
+  <p class="lead reveal">Father of two, 10+ years in Austria. Full-time in a medical laboratory. After the shift, I build things: a YouTube channel, websites, AI tools, and vacation rentals on the Adriatic.</p>
+  <p class="reveal">This isn't a CV. It's a notebook: what I do, what I'm testing, and how I can help.</p>
+
+  <h2 class="reveal">by the numbers</h2>
+  <div class="stats">
+    <div class="stat reveal"><div class="n" data-count="1">0</div><div class="l">million+ monthly views on websites I run</div></div>
+    <div class="stat reveal"><div class="n" data-count="1">0</div><div class="l">million+ monthly views on my YouTube channel</div></div>
+    <div class="stat reveal"><div class="n" data-count="10" data-suffix="+">0</div><div class="l">years living and working in Austria</div></div>
+    <div class="stat reveal"><div class="n" data-count="2">0</div><div class="l">countries, one road between them</div></div>
+  </div>
+
+  <h2 id="what" class="reveal">what I do</h2>
+  <div class="stack">
+    <div class="item reveal"><span class="num">01</span><div>
+      <h3>medical lab, full time</h3>
+      <p>The job that taught me to never assume anything — check twice, then check again. That habit goes into everything else I build.</p>
+      <span class="tag">diagnostics</span><span class="tag">vienna</span>
+    </div></div>
+    <div class="item reveal"><span class="num">02</span><div>
+      <h3>youtube — 1M+ views a month</h3>
+      <p><a href="https://www.youtube.com/@horizontkanal" target="_blank" rel="noopener">Horizont</a> — a Croatian-language channel about money, real estate, history and maps. Produced end-to-end with AI tools: no studio, no crew.</p>
+      <span class="tag">shorts</span><span class="tag">documentaries</span><span class="tag">ai production</span>
+    </div></div>
+    <div class="item reveal"><span class="num">03</span><div>
+      <h3>websites — 1M+ views a month</h3>
+      <p>I build and run websites that together pull over a million monthly views. From WordPress to Next.js — fast, clear, built to rank.</p>
+      <span class="tag">wordpress</span><span class="tag">next.js</span><span class="tag">seo</span>
+    </div></div>
+    <div class="item reveal"><span class="num">04</span><div>
+      <h3>AI implementation</h3>
+      <p>I help people, rental hosts and small businesses bring AI into their work and daily lives — practical setups that save hours, not hype.</p>
+      <span class="tag">chatbots</span><span class="tag">automation</span><span class="tag">workflows</span>
+    </div></div>
+    <div class="item reveal"><span class="num">05</span><div>
+      <h3>host on the Adriatic</h3>
+      <p>Vacation rentals in Dalmatia, guests from all over Europe. Most of my ideas start here — every guest problem is a potential tool.</p>
+      <span class="tag">airbnb</span><span class="tag">dalmatia</span>
+    </div></div>
+    <div class="item reveal"><span class="num">06</span><div>
+      <h3>building</h3>
+      <p>The biggest project right now: a house with a pool in Croatia, from the foundations up. Every cost, decision and mistake documented.</p>
+      <span class="tag">in progress</span>
+    </div></div>
+  </div>
+
+  <h2 id="help" class="reveal">how I can help with AI</h2>
+  <div class="help">
+    <div class="hcard reveal"><h3>People</h3><ul>
+      <li>pick the right AI tools for you</li><li>automate the boring stuff</li><li>write, plan and learn faster</li></ul></div>
+    <div class="hcard reveal"><h3>Rental hosts</h3><ul>
+      <li>AI guest assistant, 24/7, any language</li><li>listing texts and reviews</li><li>check-in and paperwork flows</li></ul></div>
+    <div class="hcard reveal"><h3>Small businesses</h3><ul>
+      <li>website + AI chat that answers clients</li><li>content and video on autopilot</li><li>internal workflows that save hours</li></ul></div>
+  </div>
+
+  <h2 class="reveal">now (november 2026)</h2>
+  <ul class="now reveal">
+    <li>the house in Croatia — phase by phase</li>
+    <li>Horizont: more long-form, not just Shorts</li>
+    <li>a rent-calculation tool for Vienna property managers</li>
+    <li>AI setups for hosts and small businesses</li>
+  </ul>
+
+  <h2 class="reveal">rules I try to keep</h2>
+  <ul class="rules reveal">
+    <li>build first, analyse later.</li>
+    <li>if it repeats three times — automate it.</li>
+    <li>a small project that works &gt; a big one that waits.</li>
+    <li>check twice. lab habit.</li>
+    <li>weekends are for family, not for deploys.</li>
+  </ul>
+
+  <section class="contact reveal" id="contact">
+    <h2>contact</h2>
+    <a href="mailto:goran@dragovic.at">goran@dragovic.at</a>
+    <p>AI for your business, a website, video — or just hello from Vienna. Write me.</p>
+  </section>
+</main>
+
+<footer><span>— g.</span><span>wien ↔ biograd · 2026</span></footer>
 
 <script>
-  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}}),{threshold:.12});
-  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+(() => {
+  /* reveal on scroll + counters */
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (!e.isIntersecting) return;
+    e.target.classList.add('on'); io.unobserve(e.target);
+    const n = e.target.querySelector('[data-count]');
+    if (n) { const to = +n.dataset.count, suf = n.dataset.suffix || (to === 1 ? 'M+' : ''); let t0;
+      const step = ts => { t0 ??= ts; const k = Math.min((ts - t0) / 1100, 1);
+        n.textContent = (to === 1 && k < 1 ? (k).toFixed(1) : Math.round(to * k)) + (k === 1 ? suf : ''); if (k < 1) requestAnimationFrame(step); };
+      requestAnimationFrame(step); }
+  }), { threshold: .15 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  /* journey scene */
+  const j = document.getElementById('journey'), stage = document.getElementById('stage');
+  const far = document.getElementById('far'), mid = document.getElementById('mid');
+  const wheel = document.getElementById('wheel'), sun = document.getElementById('sun');
+  const bar = document.getElementById('bar'), caps = [...document.querySelectorAll('.caption')];
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const mix = (c1, c2, t) => '#' + [0, 2, 4].map(i => Math.round(lerp(parseInt(c1.substr(i + 1, 2), 16), parseInt(c2.substr(i + 1, 2), 16), t)).toString(16).padStart(2, '0')).join('');
+  let ticking = false;
+  function frame() {
+    ticking = false;
+    const r = j.getBoundingClientRect(), total = j.offsetHeight - innerHeight;
+    const p = Math.min(Math.max(-r.top / total, 0), 1);
+    const max = mid.getBoundingClientRect().width - innerWidth;
+    mid.style.transform = `translateX(${-p * max}px)`;
+    far.style.transform = `translateX(${-p * max * .45}px)`;
+    wheel.setAttribute('transform', `rotate(${p * 360})`);
+    stage.style.background = `linear-gradient(${mix('#bcd3e6', '#f7b98a', p)}, ${mix('#eef3f7', '#ffe9cf', p)})`;
+    sun.style.left = lerp(70, 78, p) + '%';
+    sun.style.top = lerp(10, 30, p) + '%';
+    bar.style.width = (p * 100) + '%';
+    const st = p < .3 ? 0 : p < .64 ? 1 : 2, ps = pics();
+    if (ps.length) { const pick = ps.find(i => +i.dataset.s === st) || ps[0]; ps.forEach(i => i.classList.toggle('on', i === pick)); }
+    caps.forEach(c => { const a = +c.dataset.a, b = +c.dataset.b; c.style.opacity = (p >= a && p < b) ? 1 : 0; });
+  }
+  const pics = () => [...document.querySelectorAll('.traveler img.g')];
+  addEventListener('load', () => { if (!pics().length) document.getElementById('fallbackGuy').style.display = 'block'; frame(); });
+  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }, { passive: true });
+  addEventListener('resize', frame);
+  frame();
+})();
 </script>
 </body>
 </html>
