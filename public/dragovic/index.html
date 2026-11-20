@@ -3,12 +3,27 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>goran.md — dragovic.at</title>
-<meta name="description" content="Lab technician by day, builder after hours. Vienna-based, Biograd-born. YouTube, websites, AI for people, hosts and small businesses.">
+<title>Goran Dragović — AI for hosts &amp; small businesses, websites, YouTube | Vienna</title>
+<meta name="description" content="Goran Dragović: Vienna-based lab technician who helps people, Airbnb hosts and small businesses put AI to work. 100+ web projects, a YouTube channel with 1M+ monthly views.">
 <meta name="theme-color" content="#f3efe6">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="canonical" href="https://dragovic.at/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://dragovic.at/">
+<meta property="og:title" content="Goran Dragović — AI, websites &amp; YouTube">
+<meta property="og:description" content="Lab technician by day, builder after hours. Helping people, Airbnb hosts and small businesses put AI to work.">
+<meta property="og:image" content="https://dragovic.at/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://dragovic.at/og-image.jpg">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Goran Dragović","url":"https://dragovic.at/","email":"mailto:goran@dragovic.at","homeLocation":{"@type":"Place","name":"Vienna, Austria"},"knowsAbout":["AI implementation","Web development","YouTube","Vacation rental hosting"],"sameAs":["https://www.youtube.com/@horizontkanal"]}</script>
+<link rel="preload" href="/fonts/fraunces-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/fonts/fonts.css">
+<script>document.documentElement.classList.add('js')</script>
 <style>
   :root{
     --paper:#f3efe6; --ink:#1c1b19; --muted:#6b665d; --line:#d9d2c3;
@@ -106,10 +121,11 @@
   .contact a:hover{color:var(--sun)}
   .contact p{opacity:.7;font-size:16px;margin:10px 0 0}
 
-  footer{max-width:740px;margin:0 auto;padding:30px 24px 60px;display:flex;justify-content:space-between;font:400 12px "JetBrains Mono",monospace;color:var(--muted)}
+  footer a{color:var(--muted)}
+  footer{flex-wrap:wrap;gap:8px;max-width:740px;margin:0 auto;padding:30px 24px 60px;display:flex;justify-content:space-between;font:400 12px "JetBrains Mono",monospace;color:var(--muted)}
 
-  .reveal{opacity:0;transform:translateY(14px);transition:opacity .7s,transform .7s}
-  .reveal.on{opacity:1;transform:none}
+  .js .reveal{opacity:0;transform:translateY(14px);transition:opacity .7s,transform .7s}
+  .js .reveal.on{opacity:1;transform:none}
   @media (max-width:680px){ .help{grid-template-columns:1fr} .stats{grid-template-columns:1fr 1fr} .stat .n{font-size:36px} .bar nav a:not(:last-child){display:none} body{font-size:17px} }
   @media (prefers-reduced-motion:reduce){ *{animation:none!important;transition:none!important} .reveal{opacity:1;transform:none} }
 </style>
@@ -284,9 +300,9 @@
 
     <!-- traveler (caricature). Drop goran.png next to this file and it appears automatically. -->
     <div class="traveler" id="traveler">
-      <img class="g" data-s="0" src="goran-vienna.png" alt="Goran in Vienna" onerror="this.remove()">
-      <img class="g" data-s="1" src="goran-road.png" alt="Goran on the road" onerror="this.remove()">
-      <img class="g" data-s="2" src="goran-biograd.png" alt="Goran in Biograd" onerror="this.remove()">
+      <img class="g" data-s="0" src="goran-vienna.webp" width="700" height="1100" decoding="async" alt="Goran in Vienna" onerror="this.remove()">
+      <img class="g" data-s="1" src="goran-road.webp" width="700" height="1100" decoding="async" alt="Goran on the road" onerror="this.remove()">
+      <img class="g" data-s="2" src="goran-biograd.webp" width="700" height="1100" decoding="async" alt="Goran in Biograd" onerror="this.remove()">
       <svg id="fallbackGuy" style="display:none" viewBox="0 0 120 230" aria-hidden="true">
         <ellipse cx="60" cy="226" rx="34" ry="4" fill="rgba(0,0,0,.18)"/>
         <rect x="44" y="150" width="13" height="72" rx="6" fill="#2d3b4f"/><rect x="63" y="150" width="13" height="72" rx="6" fill="#2d3b4f"/>
@@ -318,10 +334,10 @@
 
   <h2 class="reveal">by the numbers</h2>
   <div class="stats">
-    <div class="stat reveal"><div class="n" data-count="1">0</div><div class="l">daily views on websites I've built</div></div>
-    <div class="stat reveal"><div class="n" data-count="1">0</div><div class="l">monthly views on my YouTube channel</div></div>
-    <div class="stat reveal"><div class="n" data-count="10" data-suffix="+">0</div><div class="l">years living and working in Austria</div></div>
-    <div class="stat reveal"><div class="n" data-count="100" data-suffix="+">0</div><div class="l">projects shipped</div></div>
+    <div class="stat reveal"><div class="n">100+</div><div class="l">web projects built</div></div>
+    <div class="stat reveal"><div class="n">1M+</div><div class="l">monthly views on my YouTube channel</div></div>
+    <div class="stat reveal"><div class="n">10+</div><div class="l">years living and working in Austria</div></div>
+    <div class="stat reveal"><div class="n">24/7</div><div class="l">AI guest assistants for rental hosts</div></div>
   </div>
 
   <h2 id="what" class="reveal">what I do</h2>
@@ -332,13 +348,13 @@
       <span class="tag">diagnostics</span><span class="tag">vienna</span>
     </div></div>
     <div class="item reveal"><span class="num">02</span><div>
-      <h3>youtube — 1M+ views a month</h3>
+      <h3>YouTube — 1M+ views a month</h3>
       <p><a href="https://www.youtube.com/@horizontkanal" target="_blank" rel="noopener">Horizont</a> — a Croatian-language channel about money, real estate, history and maps. Produced end-to-end with AI tools: no studio, no crew.</p>
       <span class="tag">shorts</span><span class="tag">documentaries</span><span class="tag">ai production</span>
     </div></div>
     <div class="item reveal"><span class="num">03</span><div>
-      <h3>websites — 1M+ views a day</h3>
-      <p>I've built websites that reach over a million views a day, and 100+ projects overall. From WordPress to Next.js — fast, clear, built to rank.</p>
+      <h3>websites — 100+ projects</h3>
+      <p>100+ web projects, including sites with millions of monthly visitors. From WordPress to Next.js — fast, clear, built to rank.</p>
       <span class="tag">wordpress</span><span class="tag">next.js</span><span class="tag">seo</span>
     </div></div>
     <div class="item reveal"><span class="num">04</span><div>
@@ -382,23 +398,18 @@
   <section class="contact reveal" id="contact">
     <h2>contact</h2>
     <a href="mailto:goran@dragovic.at">goran@dragovic.at</a>
-    <p>AI for your business, a website, video — or just hello from Vienna. Write me.</p>
+    <p>AI for your business, a website, video — or just hello from Vienna. Get in touch.</p>
   </section>
 </main>
 
-<footer><span>— g.</span><span>wien ↔ biograd · 2026</span></footer>
+<footer><span>— g. · wien ↔ biograd · 2026</span><span><a href="/impressum/">Impressum</a> · <a href="/datenschutz/">Datenschutz</a></span></footer>
 
 <script>
 (() => {
-  /* reveal on scroll + counters */
+  /* reveal on scroll */
   const io = new IntersectionObserver(es => es.forEach(e => {
     if (!e.isIntersecting) return;
     e.target.classList.add('on'); io.unobserve(e.target);
-    const n = e.target.querySelector('[data-count]');
-    if (n) { const to = +n.dataset.count, suf = n.dataset.suffix || (to === 1 ? 'M+' : ''); let t0;
-      const step = ts => { t0 ??= ts; const k = Math.min((ts - t0) / 1100, 1);
-        n.textContent = (to === 1 && k < 1 ? (k).toFixed(1) : Math.round(to * k)) + (k === 1 ? suf : ''); if (k < 1) requestAnimationFrame(step); };
-      requestAnimationFrame(step); }
   }), { threshold: .15 });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
